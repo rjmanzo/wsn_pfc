@@ -106,8 +106,10 @@ USE_TZ = False
 
 #esto esta en la documentacion de django. Como seleccionar y apuntar a los directoreos estaticos
 #BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-STATIC_ROOT = 'staticfiles'
-STATIC_URL = '/static/'
+MEDIA_ROOT = 'media'
+STATIC_ROOT = 'static'
+MEDIA_URL = '/media'
+STATIC_URL = '/static'
 
 STATICFILES_DIR = (
     os.path.join(BASE_DIR,'static')
