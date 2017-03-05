@@ -1,0 +1,12 @@
+
+#generar archivo con los paquetes instalados
+a.- Ejecutar
+pip freeze > requirements.txt
+b.-
+Borrar la linea que dice: "pkg-resources==0.0.0"
+
+Otra alternativa es generar el archivo requirements.txt
+pero con el grep del archivo q no queremos que este. Este es un bug
+que genera ubuntu que se genera cuando estamos parados sobre el virtualenv y generamos el archivo
+
+pip freeze | grep -v "pkg-resources" > requirements.txt
