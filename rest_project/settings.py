@@ -70,6 +70,19 @@ TEMPLATES = [
     },
 ]
 
+#db_from_env = dj_database_url.config(conn_max_age=500)
+#DATABASES['default'].update(db_from_env)
+#DATABASES = {'default': db_from_env}
+
+# Honor the 'X-Forwarded-Proto' header for request.is_secure()
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https') #HK_ST
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.8/howto/static-files/
+
+DATABASES = {'default': dj_database_url.config(default='postgres://user:pass@localhost/dbname')}
+
+#DATABASES['default'] = dj_database_url.config() #HK_ST
+
 ALLOWED_HOSTS = ['*'] #HK_ST
 
 DEBUG = False #HK_ST
@@ -79,15 +92,6 @@ try:
     from .local_settings import *
 except ImportError:
     pass
-
-db_from_env = dj_database_url.config(conn_max_age=500)
-#DATABASES['default'].update(db_from_env)
-DATABASES = {'default': db_from_env}
-
-# Honor the 'X-Forwarded-Proto' header for request.is_secure()
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https') #HK_ST
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 WSGI_APPLICATION = 'rest_project.wsgi.application'
 
