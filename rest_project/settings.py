@@ -18,8 +18,8 @@ import os
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY')
-#SECRET_KEY = '%6)&_x54bdqyn@z-z9^&w+cyy*m(q@77*2gddm#lk)z93wxxca'
+#SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = '%6)&_x54bdqyn@z-z9^&w+cyy*m(q@77*2gddm#lk)z93wxxca'
 # SECURITY WARNING: don't run with debug turned on in production!
 
 # Application definition
@@ -108,7 +108,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
