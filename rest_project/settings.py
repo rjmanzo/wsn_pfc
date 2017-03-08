@@ -125,10 +125,10 @@ STATIC_URL = '/static/'
 
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (
-os.path.join(PROJECT_ROOT, 'static'),
+os.path.join(PROJECT_ROOT, 'wsn/static'),
 )
 
-#STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 #Cors settings
 CORS_ORIGIN_ALLOW_ALL = True
