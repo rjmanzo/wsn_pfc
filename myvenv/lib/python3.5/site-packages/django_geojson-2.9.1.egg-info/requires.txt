@@ -1,0 +1,6 @@
+Django
+six
+
+[field]
+jsonfield
+django-leaflet>=0.12
