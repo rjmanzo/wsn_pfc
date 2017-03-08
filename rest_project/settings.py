@@ -85,7 +85,7 @@ DATABASES = {'default': dj_database_url.config(default='postgres://user:pass@loc
 
 ALLOWED_HOSTS = ['*'] #HK_ST
 
-DEBUG = False #HK_ST
+DEBUG = True #HK_ST
 
 #HK_ST
 try:
