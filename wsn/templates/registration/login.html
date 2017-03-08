@@ -29,7 +29,7 @@
   <div class="login-box-body">
     <p class="login-box-msg">Inicie sesión para ingresar al sistema</p>
       {% if form.errors %}
-          <p>Tu usario o contraseña son incorrectos. Por favor, intenta nuevamente.</p>
+          <p>Su usuario y/o contraseña son incorrectos. Por favor, intenta nuevamente.</p>
       {% endif %}
     <form method="post" action="{% url 'login' %}">
     {% csrf_token %}
@@ -39,13 +39,14 @@
         <p class="top-menu">Hola {{ user.username }} <small>(<a href="{% url 'logout' %}">Cerrar sesión</a>)</small></p>
         {% else %}
             <div class="form-group has-feedback">
-              <input type="user" class="form-control" placeholder="Usuario">
-              <span class="glyphicon glyphicon-user form-control-feedback"> {{ user.username }}</span>
+              <input id="id_username" class="form-control" name="username" type="text" placeholder="Usuario">
+              <span class="glyphicon glyphicon-user form-control-feedback" ></span>
             </div>
             <div class="form-group has-feedback">
-              <input type="password" class="form-control" placeholder="Contraseña">
-              <span class="glyphicon glyphicon-lock form-control-feedback"> {{ user.password }} </span>
+              <input id="id_password" class="form-control" name="password" type="password" placeholder="Contraseña">
+              <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
+            <input type="hidden" name="next"  value="{{ next }}" />
         {% endif %}
       </div>
       <div class="row">
@@ -58,8 +59,12 @@
         </div>
         <!-- /.col -->
         <div class="col-xs-5">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">Iniciar sesión</button>
-          <input type="hidden" name="next" value="" />
+          <button type="submit" value="login" class="btn btn-primary btn-block btn-flat">Iniciar sesión</button>
+          {% if user.is_authenticated %}
+            <input type="hidden" name="next"  value="/" />
+          {% else %}
+          <input type="hidden" name="next"  value="{{ next }}" />
+          {% endif %}
         </div>
         <!-- /.col -->
       </div>

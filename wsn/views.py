@@ -1,5 +1,5 @@
 from django.conf.urls import include, url
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from rest_framework.generics import ListCreateAPIView, ListAPIView
@@ -13,6 +13,23 @@ from djgeojson.views import GeoJSONLayerView
 """#App Principal"""
 @login_required
 def main_page(request):
+    #return HttpResponseRedirect(request.POST.get('next', none))
+    object = request.POST.get('next',None)
+    if object is not None:
+        return redirect(request.POST.get('next'))
+    else:
+        return redirect('wsn/lab-test/')
+
+@login_required
+def lab_page(request):
+    return render(request, 'wsn/starter.html', {})
+
+@login_required
+def campo_uno_page(request):
+    return render(request, 'wsn/starter.html', {})
+
+@login_required
+def campo_dos_page(request):
     return render(request, 'wsn/starter.html', {})
 
 """#REST views--------------------------"""

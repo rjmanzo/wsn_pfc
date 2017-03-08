@@ -70,21 +70,24 @@ TEMPLATES = [
     },
 ]
 
-DATABASES = {'default': dj_database_url.config(default='postgres://user:pass@localhost/dbname')}
+ALLOWED_HOSTS = ['*'] #HK_ST
 
-#DATABASES['default'] = dj_database_url.config() #HK_ST
-
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https') #HK_ST
-
-ALLOWED_HOSTS = ['*']#HK_ST
-
-DEBUG = False#HK_ST
+DEBUG = False #HK_ST
 
 #HK_ST
 try:
     from .local_settings import *
 except ImportError:
     pass
+
+db_from_env = dj_database_url.config(conn_max_age=500)
+#DATABASES['default'].update(db_from_env)
+DATABASES = {'default': db_from_env}
+
+# Honor the 'X-Forwarded-Proto' header for request.is_secure()
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https') #HK_ST
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 WSGI_APPLICATION = 'rest_project.wsgi.application'
 
@@ -107,24 +110,17 @@ USE_TZ = False
 #esto esta en la documentacion de django. Como seleccionar y apuntar a los directoreos estaticos
 #BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-STATICFILES_DIR = (
-    os.path.join(BASE_DIR,'static')
-)
-
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.9/howto/static-files/
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
+
 STATIC_URL = '/static/'
 
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (
-    os.path.join(PROJECT_ROOT, 'static'),
+#os.path.join(BASE_DIR, 'static'),
+os.path.join(BASE_DIR.child,'static'),
 )
-
-# Simplified static file serving.
-# https://warehouse.python.org/project/whitenoise/
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
@@ -132,9 +128,9 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
-#LOGIN SETTINGS
-LOGIN_REDIRECT_URL='/wsn/main/'
-#LOGIN_URL = '/wsn/login'
+#LOGIN SETTINGS (Default)
+LOGIN_REDIRECT_URL='/wsn/lab-test/'
+LOGIN_URL = '/wsn/login/'
 #LOGOUT_REDIRECT_URL = '/wsn/login'
 
 # Por defecto, sin poner estas lineas se carga estos dos renderizadores.

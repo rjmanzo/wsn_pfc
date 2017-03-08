@@ -6,9 +6,24 @@ app_name = 'wsn'
 
 urlpatterns = [
     url(
-        regex='^wsn/main/$',
+        regex='^$',
         view= views.main_page,
         name= 'starter'
+    ),
+    url(
+        regex='^wsn/lab-test/$',
+        view= views.lab_page,
+        name= 'lab'
+    ),
+    url(
+        regex='^wsn/campo-test-uno/$',
+        view= views.campo_uno_page,
+        name= 'campo_uno'
+    ),
+    url(
+        regex='^wsn/campo-test-dos/$',
+        view= views.campo_dos_page,
+        name= 'campo_dos'
     ),
     url(
         regex='^api-reg/$',
@@ -31,7 +46,7 @@ urlpatterns = [
         name= 'api_locations_lab'
     ),
     url(
-        regex='^api-table-lab',
+        regex='^api-table-lab/$',
         view = views.TablaLabsListJson.as_view(),
         name='tabla_lab_list_json'
     ),
