@@ -12,6 +12,8 @@ __pycache__/
 local_settings.py
 
 # virtualenv
+myvenv/
+myvenv
 venv/
 ENV/
 env/

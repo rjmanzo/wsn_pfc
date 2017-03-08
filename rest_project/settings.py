@@ -31,9 +31,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #'django.contrib.gis',
+    'dj_static',
     'rest_framework',
-    #'rest_framework_gis',
+    'rest_framework_gis',
     'wsn',
     'djgeojson',
     'leaflet',
@@ -128,7 +128,7 @@ STATICFILES_DIRS = (
 os.path.join(PROJECT_ROOT, 'static'),
 )
 
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+#STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 #Cors settings
 CORS_ORIGIN_ALLOW_ALL = True
