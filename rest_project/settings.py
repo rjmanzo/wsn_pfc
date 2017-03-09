@@ -12,11 +12,13 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 
 #HEROKU:settings
 import dj_database_url
+import os
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+#SECRET_KEY = config('SECRET_KEY')
 SECRET_KEY = '%6)&_x54bdqyn@z-z9^&w+cyy*m(q@77*2gddm#lk)z93wxxca'
 # SECURITY WARNING: don't run with debug turned on in production!
 
@@ -70,15 +72,22 @@ TEMPLATES = [
     },
 ]
 
+#db_from_env = dj_database_url.config(conn_max_age=500)
+#DATABASES['default'].update(db_from_env)
+#DATABASES = {'default': db_from_env}
+
+# Honor the 'X-Forwarded-Proto' header for request.is_secure()
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https') #HK_ST
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.8/howto/static-files/
+
 DATABASES = {'default': dj_database_url.config(default='postgres://user:pass@localhost/dbname')}
 
 #DATABASES['default'] = dj_database_url.config() #HK_ST
 
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https') #HK_ST
+ALLOWED_HOSTS = ['*'] #HK_ST
 
-ALLOWED_HOSTS = ['*']#HK_ST
-
-DEBUG = False#HK_ST
+DEBUG = False #HK_ST
 
 #HK_ST
 try:
@@ -105,21 +114,33 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 #esto esta en la documentacion de django. Como seleccionar y apuntar a los directoreos estaticos
-#BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-STATIC_ROOT = 'staticfiles'
-STATIC_URL = '/static/'
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.9/howto/static-files/
+STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+#STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
+
+# Extra places for collectstatic to find static files.
 STATICFILES_DIR = (
-    os.path.join(BASE_DIR,'static')
+    os.path.join(BASE_DIR,'static'),
 )
+
+# Simplified static file serving.
+# https://warehouse.python.org/project/whitenoise/
+
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 #Cors settings
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
-#LOGIN SETTINGS
-LOGIN_REDIRECT_URL='/wsn/main/'
-#LOGIN_URL = '/wsn/login'
+#LOGIN SETTINGS (Default)
+LOGIN_REDIRECT_URL='/wsn/lab-test/'
+LOGIN_URL = '/wsn/login/'
 #LOGOUT_REDIRECT_URL = '/wsn/login'
 
 # Por defecto, sin poner estas lineas se carga estos dos renderizadores.
@@ -147,4 +168,4 @@ LEAFLET_CONFIG = {
     ('Satelite', '//server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {'attribution': ' Power by Esri | Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'}),
     ('OStreetMap', 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png' , {'attribution': '&copy; OpenStreetMap'}),
     ],
-    }
+}

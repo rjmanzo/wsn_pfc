@@ -40,7 +40,7 @@ class DatosTablaLabSerializers(serializers.ModelSerializer):
          fields = ('filtro','data','timestamp')
          read_only_fields = ('filtro','data','timestamp')
 
-"""Serializamos la vista de locaciones lab para poder utilizarla en el mapa"""
+#"""Serializamos la vista de locaciones lab para poder utilizarla en el mapa"""
 class LocacionesLabSerializers(GeoFeatureModelSerializer):
 
     class Meta:

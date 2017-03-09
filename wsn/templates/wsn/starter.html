@@ -71,11 +71,15 @@
                       <a href="#">
                         <div class="pull-left">
                           <!-- User Image -->
-                          <img src="{% static "img/admin_128x128.jpg" %}" class="img-circle" alt="User Image">
+                          {% if user.username == "ceneha" %}
+                          <img src="{% static "css/images/ceneha.jpg" %}" class="img-circle" alt="User Image">
+                          {% else %}
+                          <img src="{% static "css/images/invite.png" %}" class="img-circle" alt="User Image">
+                          {%endif%}
                         </div>
                         <!-- Message title and timestamp -->
                         <h4>
-                          Administrador <!-- colocar el usuario -->
+                          {{ user.username }} <!-- colocar el usuario -->
                           <small><i class="fa fa-clock-o"></i> 5 mins <!-- poner directamente la hora del msj y listo--> </small>
                         </h4>
                         <!-- The message -->
@@ -94,18 +98,20 @@
               <!-- Menu Toggle Button -->
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <!-- The user image in the navbar-->
-                <img src="{% static "img/admin_128x128.jpg" %}" class="user-image" alt="User Image">
                 <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                <span class="hidden-xs">Ceneha</span>
+                <span class="hidden-xs">{{ user.username }} <i class="fa fa-gears"></i></span>
               </a>
               <ul class="dropdown-menu">
                 <!-- The user image in the menu -->
                 <li class="user-header">
-                  <img src="{% static "img/admin_128x128.jpg" %}" class="img-circle" alt="User Image">
-
+                  {% if user.username == "ceneha" %}
+                  <img src="{% static "css/images/ceneha.jpg" %}" class="img-circle" alt="User Image">
+                  {% else %}
+                  <img src="{% static "css/images/invite.png" %}" class="img-circle" alt="User Image">
+                  {%endif%}
                   <p>
-                    Ceneha - Usario
-                    <small>Miembro desde Feb. 2016</small>
+                    {{ user.username }} - Usuario
+                    <small>Miembro desde Dic . 2016</small>
                   </p>
                 </li>
                 <!-- Menu Body -->
@@ -129,7 +135,7 @@
           <a href="#" class="btn btn-default btn-flat">Perfil</a>
         </div> -->
         <div class="pull-right">
-          <a href="{% url 'django.contrib.auth.views.logout' %}" class="btn btn-default btn-flat">Cerrar sesión</a>
+          <a href="{% url 'django.contrib.auth.views.logout' %}"  class="btn btn-default btn-flat">Cerrar sesión</a>
         </div>
       </li>
     </ul>
@@ -151,10 +157,14 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="{% static "img/admin_128x128.jpg" %}" class="img-circle" alt="User Image">
+          {% if user.username == "ceneha" %}
+          <img src="{% static "css/images/ceneha.jpg" %}" class="img-circle" alt="User Image">
+          {% else %}
+          <img src="{% static "css/images/invite.png" %}" class="img-circle" alt="User Image">
+          {%endif%}
         </div>
         <div class="pull-left info">
-          <p>Administrador</p>
+          <p><font size="3"> {{ user.username }}</font></p>
           <!-- Status -->
           <!-- <a href="#"><i class="fa fa-circle text-success"></i> Online</a> -->
         </div>
@@ -172,12 +182,12 @@
       <!-- /.search form -->
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu">
-        <li class="header">Menu</li>
+        <li class="header"><font size="2">Menu </font></li>
         <!-- Optionally, you can add icons to the links -->
-        <li class="active"><a href="#"><i class="fa fa-dashboard"></i><span>Pruebas de Laboratorio</span></a></li>
-        <li><a href="#"><i class="fa fa-pie-chart"></i> <span>Pruebas de Campo N° 1</span></a></li>
-        <li><a href="#"><i class="fa fa-pie-chart"></i> <span>Pruebas de Campo N° 2</span></a></li>
-        <li><a href="#"><i class="fa fa-edit"></i> <span>Administración</span></a></li>
+        <li class="active"><a href="{%url 'wsn:lab' %}"><i class="fa fa-dashboard"></i><span>Pruebas de Laboratorio</span></a></li>
+        <li><a href="{%url 'wsn:campo_uno' %}"><i class="fa fa-pie-chart"></i> <span>Pruebas de Campo N° 1</span></a></li>
+        <li><a href="{%url 'wsn:campo_dos' %}"><i class="fa fa-pie-chart"></i> <span>Pruebas de Campo N° 2</span></a></li>
+        <li><a href="{% url 'admin:index' %}"><i class="fa fa-edit"></i> <span>Administración</span></a></li>
       </ul>
       <!-- /.sidebar-menu -->
     </section>
@@ -287,11 +297,7 @@
                //centro el mapa sobre las locaciones cargadas
                mymap.fitBounds(geojsonLayer.getBounds().pad(0.5));
 
-
-
                </script>
-
-
             </div>
             <!-- /. mapa-->
           </div>
@@ -301,7 +307,7 @@
           <!-- Tabla de datos del sistema -->
            <div class="box">
             <div class="box-header">
-              <h3 class="box-title">WSN - Datos</h3>
+              <h3 class="box-title">Tabla de datos</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -335,7 +341,7 @@
         <!-- grafica de temperatura global -->
         <div class="box box-primary">
           <div class="box-header with-border">
-            <h3 class="box-title">WSN - Temperatura</h3>
+            <h3 class="box-title">Gráficas - temperatura</h3>
 
             <div class="box-tools pull-right">
               <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -351,7 +357,7 @@
         <!-- grafica de humedad global -->
         <div class="box box-info">
             <div class="box-header with-border">
-              <h3 class="box-title">WSN - Humedad</h3>
+              <h3 class="box-title">Gráficas - Humedad</h3>
 
               <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -366,7 +372,7 @@
           <!-- grafica de nivel freatico global -->
           <div class="box box-info">
               <div class="box-header with-border">
-                <h3 class="box-title">WSN - Nivel freatico</h3>
+                <h3 class="box-title">Gráficas - Nivel freatico</h3>
 
                 <div class="box-tools pull-right">
                   <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -375,9 +381,23 @@
               </div>
               <div class="box-body">
                 <!-- <div id="freatico" style="height: 250px;"></div> -->
-                 <div id="freatico" width="100%" cellspacing="0"><!-- Plotly chart will be drawn inside this DIV --></div>
+                 <div id="presion" width="100%" cellspacing="0"><!-- Plotly chart will be drawn inside this DIV --></div>
               </div>
             </div>
+            <div class="box box-info">
+                <div class="box-header with-border">
+                  <h3 class="box-title">Gráficas - Presión barometrica</h3>
+
+                  <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                      <i class="fa fa-minus"></i></button>
+                  </div>
+                </div>
+                <div class="box-body">
+                  <!-- <div id="freatico" style="height: 250px;"></div> -->
+                   <div id="freatico" width="100%" cellspacing="0"><!-- Plotly chart will be drawn inside this DIV --></div>
+                </div>
+              </div>
     <!-- /.content -->
   </div>
         <!-- /.box -->
@@ -397,16 +417,16 @@
   </footer>
 
   <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
+  <!-- <aside class="control-sidebar control-sidebar-dark"> -->
     <!-- Create the tabs -->
-    <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+     <!-- <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
       <li class="active"><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
       <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
-    </ul>
+    </ul> -->
     <!-- Tab panes -->
-    <div class="tab-content">
+    <!--<div class="tab-content"> -->
       <!-- Home tab content -->
-      <div class="tab-pane active" id="control-sidebar-home-tab">
+      <!--<div class="tab-pane active" id="control-sidebar-home-tab">
         <h3 class="control-sidebar-heading">Recent Activity</h3>
         <ul class="control-sidebar-menu">
           <li>
@@ -420,10 +440,10 @@
               </div>
             </a>
           </li>
-        </ul>
+        </ul> -->
         <!-- /.control-sidebar-menu -->
 
-        <h3 class="control-sidebar-heading">Tasks Progress</h3>
+        <!-- <h3 class="control-sidebar-heading">Tasks Progress</h3>
         <ul class="control-sidebar-menu">
           <li>
             <a href="javascript::;">
@@ -439,15 +459,15 @@
               </div>
             </a>
           </li>
-        </ul>
+        </ul> -->
         <!-- /.control-sidebar-menu -->
-      </div>
+      <!-- </div> -->
       <!-- /.tab-pane -->
       <!-- Stats tab content -->
-      <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
+      <!-- <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div> -->
       <!-- /.tab-pane -->
       <!-- Settings tab content -->
-      <div class="tab-pane" id="control-sidebar-settings-tab">
+      <!-- <div class="tab-pane" id="control-sidebar-settings-tab">
         <form method="post">
           <h3 class="control-sidebar-heading">Administración general</h3>
 
@@ -459,18 +479,18 @@
             <p>
               Información
             </p>
-          </div>
+          </div> -->
           <!-- /.form-group -->
-        </form>
-      </div>
+        <!-- </form>
+      </div> -->
       <!-- /.tab-pane -->
-    </div>
-  </aside>
+    <!--</div>
+  </aside> -->
   <!-- /.control-sidebar -->
   <!-- Add the sidebar's background. This div must be placed
   immediately after the control sidebar -->
-  <div class="control-sidebar-bg"></div>
-  </div>
+  <!-- <div class="control-sidebar-bg"></div>
+  </div> -->
   <!-- ./wrapper -->
   <!-- REQUIRED JS SCRIPTS -->
   <!-- jQuery 2.2.3 -->
@@ -534,7 +554,7 @@
   <!-- JS - Temperatura_1 -->
   <script type="text/javascript">
 
-  Plotly.d3.json('http://localhost:8000/wsn/api-graph-lab/', function(hum_fig){
+  Plotly.d3.json('{% url 'wsn:api_graph_lab' %}', function(hum_fig){
     //aux arrays
     var x_data_node1 = [],
         x_data_node2 = [],
@@ -635,7 +655,7 @@
   <!-- JS - Temperatura_2 -->
   <script type="text/javascript">
 
-  Plotly.d3.json('http://localhost:8000/wsn/api-graph-lab/', function(hum_fig){
+  Plotly.d3.json('{% url 'wsn:api_graph_lab' %}', function(hum_fig){
     //aux arrays
     var x_data_node1 = [],
         x_data_node2 = [],
@@ -736,7 +756,7 @@
   <!-- JS - Humedad -->
     <script type="text/javascript">
 
-    Plotly.d3.json('http://localhost:8000/wsn/api-graph-lab/', function(hum_fig){
+    Plotly.d3.json('{% url 'wsn:api_graph_lab' %}', function(hum_fig){
       //aux arrays
       var x_data_node1 = [],
           x_data_node2 = [],
