@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'whitenoise.runserver_nostatic',
     'rest_framework',
     'rest_framework_gis',
     'wsn',
@@ -114,18 +115,25 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 #esto esta en la documentacion de django. Como seleccionar y apuntar a los directoreos estaticos
+#PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 #BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-
-STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
-
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.9/howto/static-files/
 STATIC_URL = '/static/'
+#STATIC_URL = 'staticfiles/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+#STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 
 # Extra places for collectstatic to find static files.
-STATICFILES_DIRS = (
-os.path.join(PROJECT_ROOT, 'static'),
-)
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR,'wsn','static'),
+    #'wsn/static/',
+]
+
+# Simplified static file serving.
+# https://warehouse.python.org/project/whitenoise/
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
@@ -163,4 +171,4 @@ LEAFLET_CONFIG = {
     ('Satelite', '//server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {'attribution': ' Power by Esri | Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'}),
     ('OStreetMap', 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png' , {'attribution': '&copy; OpenStreetMap'}),
     ],
-    }
+}
