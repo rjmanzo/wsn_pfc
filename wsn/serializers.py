@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from rest_framework_gis.serializers import GeoFeatureModelSerializer, GeoModelSerializer
-from wsn.models import Nodo_red,Sensor,Dato,Configuracion, DatosTablaLab, LocacionesLab
+#from rest_framework_gis.serializers import GeoFeatureModelSerializer, GeoModelSerializer
+from wsn.models import Nodo_red,Sensor,Dato,Configuracion, BatteryLife, DatosLab#, LocacionesNodo
 
 """Comunicacion wsn"""
 class NodoRedSerializers(serializers.ModelSerializer):
@@ -16,12 +16,13 @@ class SensorSerializers(serializers.ModelSerializer):
         """fields = '__all__'"""
 
 class DatoSerializers(serializers.ModelSerializer):
-    nod_red_id = NodoRedSerializers()
-    sen_id = SensorSerializers()
+    #nod_red_id = NodoRedSerializers()
+    #sen_id = SensorSerializers()
 
     class Meta:
         model = Dato
-        fields = ('id','data','nod_red_id','sen_id', 'fechahora')
+        fields = '__all__'
+        #fields = ('id','data','nod_red_id','sen_id', 'fechahora')
 
 """test numero uno. PERFECTOOOO.... ANDA EL HDP!!!"""
 class ConfiguracionSerializers(serializers.ModelSerializer):
@@ -36,17 +37,16 @@ class DatosTablaLabSerializers(serializers.ModelSerializer):
     timestamp = serializers.DateTimeField(source='fecha_hora', format="%Y-%m-%d %H:%M:%S")
 
     class Meta:
-         model = DatosTablaLab
+         model = DatosLab
          fields = ('filtro','data','timestamp')
          read_only_fields = ('filtro','data','timestamp')
 
 #"""Serializamos la vista de locaciones lab para poder utilizarla en el mapa"""
-class LocacionesLabSerializers(GeoFeatureModelSerializer):
+#class LocacionesNodoSerializers(GeoFeatureModelSerializer):
 
-    class Meta:
-        model = LocacionesLab
-        """#Gis  field"""
-        geo_field = 'geom'
-        """ id_field = False"""
+#    class Meta:
+#        model = LocacionesNodo
+#        """#Gis  field"""
+#        geo_field = 'geom'
 
-        fields = ('locacion_id','locacion_descrip')
+#        fields = ('locacion_id','locacion_descrip','wsn_descrip')

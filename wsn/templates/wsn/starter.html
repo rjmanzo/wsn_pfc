@@ -73,14 +73,15 @@
                         <div class="pull-left">
                           <!-- User Image -->
                           {% if user.username == "ceneha" %}
-                          <img src="{% static "css/images/ceneha.jpg" %}" class="img-circle" alt="User Image">
+                          <img src="{% static "img/ceneha.jpg" %}" class="img-circle" alt="User Image">
                           {% else %}
-                          <img src="{% static "css/images/invite.png" %}" class="img-circle" alt="User Image">
+                          <img src="{% static "img/invite.png" %}" class="img-circle" alt="User Image">
                           {%endif%}
                         </div>
                         <!-- Message title and timestamp -->
                         <h4>
-                          {{ user.username }} <!-- colocar el usuario -->
+                          <!-- {{ user.username }} --> <!-- colocar el usuario -->
+                          ceneha
                           <small><i class="fa fa-clock-o"></i> 5 mins <!-- poner directamente la hora del msj y listo--> </small>
                         </h4>
                         <!-- The message -->
@@ -106,9 +107,9 @@
                 <!-- The user image in the menu -->
                 <li class="user-header">
                   {% if user.username == "ceneha" %}
-                  <img src="{% static "css/images/ceneha.jpg" %}" class="img-circle" alt="User Image">
+                  <img src="{% static "img/ceneha.jpg" %}" class="img-circle" alt="User Image">
                   {% else %}
-                  <img src="{% static "css/images/invite.png" %}" class="img-circle" alt="User Image">
+                  <img src="{% static "img/invite.png" %}" class="img-circle" alt="User Image">
                   {%endif%}
                   <p>
                     {{ user.username }} - Usuario
@@ -159,9 +160,9 @@
       <div class="user-panel">
         <div class="pull-left image">
           {% if user.username == "ceneha" %}
-          <img src="{% static "css/images/ceneha.jpg" %}" class="img-circle" alt="User Image">
+          <img src="{% static "img/ceneha.jpg" %}" class="img-circle" alt="User Image">
           {% else %}
-          <img src="{% static "css/images/invite.png" %}" class="img-circle" alt="User Image">
+          <img src="{% static "img/invite.png" %}" class="img-circle" alt="User Image">
           {%endif%}
         </div>
         <div class="pull-left info">
@@ -250,46 +251,18 @@
                 //Agregar el baselayer es la ultima operacion. No se porq pero si pones los marcadores dsp no anda
                 L.control.layers(baseLayers).addTo(mymap);
 
-                //var UrlJSON = 'http://leafletjs.com/examples/geojson/sample-geojson.js';
-
-                //var geojsonFeature = JSON.parse(readJSON(UrlJSON));
-
-                var geojsonFeature = {
-                "type": "FeatureCollection",
-                "features": [
-                    {
-                        "type": "Feature",
-                          "geometry":
-                            { "type": "Point",
-                              "coordinates": [-60.67254424095153, -31.64075901725384]
-                            },
-                        "properties": {
-                            "locacion_id": 2,
-                            "locacion_descrip": "Nodo_1 (UNL)"
-                        }
-                    },
-                    {
-                        "type": "Feature",
-                        "geometry":
-                          { "type": "Point",
-                            "coordinates": [-60.6725549697876, -31.6386947019486]
-                          },
-                        "properties": {
-                            "locacion_id": 1,
-                            "locacion_descrip": "Nodo_2 (RESERVA)"
-                        }
-                    }
-                  ]
-                };
+                //Cargo las locaciones de los nodos actuales
+                var collection = {{locaciones_lab|geojsonfeature:"popupContent"|safe }};
 
                 function LocationsPlaces(feature, layer) {
                 // does this feature have a property named popupContent?
-                if (feature.properties && feature.properties.locacion_descrip) {
-                  layer.bindPopup(feature.properties.locacion_descrip);
+                if (feature.properties && feature.properties.popupContent) {
+                  layer.bindPopup(feature.properties.popupContent);
                   }
                 }
 
-                var geojsonLayer = L.geoJSON(geojsonFeature, {
+                //muestro en el mapa los nodos
+                var geojsonLayer = L.geoJSON(collection, {
 
                     onEachFeature: LocationsPlaces
 
@@ -373,7 +346,7 @@
           <!-- grafica de nivel freatico global -->
           <div class="box box-info">
               <div class="box-header with-border">
-                <h3 class="box-title">Gráficas - Nivel freatico</h3>
+                <h3 class="box-title">Gráficas - Presión atmosférica</h3>
 
                 <div class="box-tools pull-right">
                   <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -387,7 +360,7 @@
             </div>
             <div class="box box-info">
                 <div class="box-header with-border">
-                  <h3 class="box-title">Gráficas - Presión barometrica</h3>
+                  <h3 class="box-title">Gráficas - Nivel freático</h3>
 
                   <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -414,7 +387,7 @@
       PFC - Ing. Informática - FICH / UNL
     </div>
     <!-- Default to the left -->
-    <strong> &copy; 2017 <a href="#">Renato J. Manzo</a>.</strong>
+    <strong> 2017 <a href="#">Renato J. Manzo</a>.</strong>
   </footer>
 
   <!-- Control Sidebar -->
@@ -514,6 +487,8 @@
 
   <!-- datatables Js -->
   <script type="text/javascript">
+      //Ajax url path
+      var TABLA_LIST_JSON_URL = "{% url 'wsn:tabla_lab_list_json' %}";
       //Configuraciones datatable
       $(document).ready(function() {
         var table = $('#DataTable').DataTable({
@@ -528,11 +503,10 @@
               "processing": true,
               "serverSide": true,
               "stateSave": true,
+              "legacyAjax": true,
               "ajax": TABLA_LIST_JSON_URL,
           });
       });
-      //Ajax url path
-      var TABLA_LIST_JSON_URL = "{% url 'wsn:tabla_lab_list_json' %}";
       // languague display options
       var language_d = {
         "lengthMenu": "Mostrar _MENU_ filas por página ",
@@ -551,11 +525,10 @@
           },
       };
   </script>
-
   <!-- JS - Temperatura_1 -->
   <script type="text/javascript">
 
-  Plotly.d3.json('{% url 'wsn:api_graph_lab' %}', function(hum_fig){
+  Plotly.d3.json('{% url 'wsn:api_graph_lab' %}', function(dat_fig){
     //aux arrays
     var x_data_node1 = [],
         x_data_node2 = [],
@@ -568,224 +541,23 @@
         y_data_node4 = [];
 
     //asigno a las variables los datos de los nodos
-    for (i = 0; i < hum_fig.length; i++) {
-      if(hum_fig[i].filtro == "Nodo_1_Temperatura_DHT22")
-        x_data_node1.push(hum_fig[i].timestamp);
-        y_data_node1.push(hum_fig[i].data);
-      if(hum_fig[i].filtro == "Nodo_2_Temperatura_DHT22")
-        x_data_node2.push(hum_fig[i].timestamp);
-        y_data_node2.push(hum_fig[i].data);
-      if(hum_fig[i].filtro == "Nodo_3_Temperatura_DHT22")
-        x_data_node3.push(hum_fig[i].timestamp);
-        y_data_node3.push(hum_fig[i].data);
-      if(hum_fig[i].filtro == "Nodo_4_Temperatura_DHT22")
-        x_data_node4.push(hum_fig[i].timestamp);
-        y_data_node4.push(hum_fig[i].data);
+    for (i = 0; i < dat_fig.length; i++) {
+      if(dat_fig[i].filtro == "Nodo_1_Temperatura_DHT22")
+        x_data_node1.push(dat_fig[i].timestamp);
+        y_data_node1.push(dat_fig[i].data);
+      if(dat_fig[i].filtro == "Nodo_2_Temperatura_DHT22")
+        x_data_node2.push(dat_fig[i].timestamp);
+        y_data_node2.push(dat_fig[i].data);
+      if(dat_fig[i].filtro == "Nodo_3_Temperatura_DHT22")
+        x_data_node3.push(dat_fig[i].timestamp);
+        y_data_node3.push(dat_fig[i].data);
+      if(dat_fig[i].filtro == "Nodo_4_Temperatura_DHT22")
+        x_data_node4.push(dat_fig[i].timestamp);
+        y_data_node4.push(dat_fig[i].data);
     }
 
-    var node1_data = {
-        x: x_data_node1,
-        y: y_data_node1,
-        type: 'scatter',
-        line: {shape: 'spline'},
-        name: 'Nodo_1'
-    };
-    var node2_data = {
-        x: x_data_node2,
-        y: y_data_node2,
-        type: 'scatter',
-        line: {shape: 'spline'},
-        name: 'Nodo_2'
-    };
-    var node3_data = {
-        x: x_data_node3,
-        y: y_data_node3,
-        type: 'scatter',
-        line: {shape: 'spline'},
-        name: 'Nodo_3'
-    };
-    var node4_data = {
-        x: x_data_node4,
-        y: y_data_node4,
-        type: 'scatter',
-        line: {shape: 'spline'},
-        name: 'Nodo_4'
-    };
+    if (x_data_node1[0] != null || x_data_node2[0] != null || x_data_node3[0] != null || x_data_node4[0] != null)  {
 
-      //seteo el tipo de variable del selector
-      var xField = 'Date';
-      var yField = 'Humedad';
-
-      //genero el selector para filtrar los datos (todos backward)
-      var selectorOptions = {
-          buttons: [{
-              step: 'day',
-              stepmode: 'backward',
-              count: 1,
-              label: 'Día'
-          }, {
-              step: 'day',
-              stepmode: 'backward',
-              count: 7,
-              label: 'Semana'
-          }, {
-              step: 'all',
-          }],
-      };
-
-      //Creo una variable global de datos
-      var data = [node1_data,node2_data,node3_data,node4_data];
-
-      //Finalmente creo la grafica
-      var gr = Plotly.plot('temperatura_1', data , {
-        title:'DHT22',
-        xaxis: {title: 'Tiempo',
-                rangeselector: selectorOptions,
-                //rangeslider: {}
-              },
-        yaxis: {title: 'Temperatura (°C)',
-                type: 'log',
-                fixedrange: true},
-        margin: {t: 20},
-        autosize: true,
-        });
-
-    });
-
-  </script>
-  <!-- JS - Temperatura_2 -->
-  <script type="text/javascript">
-
-  Plotly.d3.json('{% url 'wsn:api_graph_lab' %}', function(hum_fig){
-    //aux arrays
-    var x_data_node1 = [],
-        x_data_node2 = [],
-        x_data_node3 = [],
-        x_data_node4 = [];
-
-    var y_data_node1 = [],
-        y_data_node2 = [],
-        y_data_node3 = [],
-        y_data_node4 = [];
-
-    //asigno a las variables los datos de los nodos
-    for (i = 0; i < hum_fig.length; i++) {
-      if(hum_fig[i].filtro == "Nodo_1_Temperatura_BMP183")
-        x_data_node1.push(hum_fig[i].timestamp);
-        y_data_node1.push(hum_fig[i].data);
-      if(hum_fig[i].filtro == "Nodo_2_Temperatura_BMP183")
-        x_data_node2.push(hum_fig[i].timestamp);
-        y_data_node2.push(hum_fig[i].data);
-      if(hum_fig[i].filtro == "Nodo_3_Temperatura_BMP183")
-        x_data_node3.push(hum_fig[i].timestamp);
-        y_data_node3.push(hum_fig[i].data);
-      if(hum_fig[i].filtro == "Nodo_4_Temperatura_BMP183")
-        x_data_node4.push(hum_fig[i].timestamp);
-        y_data_node4.push(hum_fig[i].data);
-    }
-
-    var node1_data = {
-        x: x_data_node1,
-        y: y_data_node1,
-        type: 'scatter',
-        line: {shape: 'spline'},
-        name: 'Nodo_1'
-    };
-    var node2_data = {
-        x: x_data_node2,
-        y: y_data_node2,
-        type: 'scatter',
-        line: {shape: 'spline'},
-        name: 'Nodo_2'
-    };
-    var node3_data = {
-        x: x_data_node3,
-        y: y_data_node3,
-        type: 'scatter',
-        line: {shape: 'spline'},
-        name: 'Nodo_3'
-    };
-    var node4_data = {
-        x: x_data_node4,
-        y: y_data_node4,
-        type: 'scatter',
-        line: {shape: 'spline'},
-        name: 'Nodo_4'
-    };
-
-      //seteo el tipo de variable del selector
-      var xField = 'Date';
-      var yField = 'Humedad';
-
-      //genero el selector para filtrar los datos (todos backward)
-      var selectorOptions = {
-          buttons: [{
-              step: 'day',
-              stepmode: 'backward',
-              count: 1,
-              label: 'Día'
-          }, {
-              step: 'day',
-              stepmode: 'backward',
-              count: 7,
-              label: 'Semana'
-          }, {
-              step: 'all',
-          }],
-      };
-
-      //Creo una variable global de datos
-      var data = [node1_data,node2_data,node3_data,node4_data];
-
-      //Finalmente creo la grafica
-      var gr = Plotly.plot('temperatura_2', data , {
-        title:'BMP138',
-        xaxis: {title: 'Tiempo',
-                rangeselector: selectorOptions,
-                //rangeslider: {}
-              },
-        yaxis: {title: 'Temperatura (°C)',
-                type: 'log',
-                fixedrange: true},
-        margin: {t: 20},
-        autosize: true,
-        });
-
-    });
-
-  </script>
-  <!-- JS - Humedad -->
-    <script type="text/javascript">
-
-    Plotly.d3.json('{% url 'wsn:api_graph_lab' %}', function(hum_fig){
-      //aux arrays
-      var x_data_node1 = [],
-          x_data_node2 = [],
-          x_data_node3 = [],
-          x_data_node4 = [];
-
-      var y_data_node1 = [],
-          y_data_node2 = [],
-          y_data_node3 = [],
-          y_data_node4 = [];
-
-      //asigno a las variables los datos de los nodos
-      for (i = 0; i < hum_fig.length; i++) {
-        if(hum_fig[i].filtro == "Nodo_1_Humedad_DHT22")
-          x_data_node1.push(hum_fig[i].timestamp);
-          y_data_node1.push(hum_fig[i].data);
-        if(hum_fig[i].filtro == "Nodo_2_Humedad_DHT22")
-          x_data_node2.push(hum_fig[i].timestamp);
-          y_data_node2.push(hum_fig[i].data);
-        if(hum_fig[i].filtro == "Nodo_3_Humedad_DHT22")
-          x_data_node3.push(hum_fig[i].timestamp);
-          y_data_node3.push(hum_fig[i].data);
-        if(hum_fig[i].filtro == "Nodo_4_Humedad_DHT22")
-          x_data_node4.push(hum_fig[i].timestamp);
-          y_data_node4.push(hum_fig[i].data);
-      }
-
-      //Cargo las variables de cada nodo con la información de X e Y
       var node1_data = {
           x: x_data_node1,
           y: y_data_node1,
@@ -815,44 +587,259 @@
           name: 'Nodo_4'
       };
 
-      //seteo el tipo de variable del selector
-      var xField = 'Date';
-      var yField = 'Humedad';
+        //seteo el tipo de variable del selector
+        var xField = 'Date';
+        var yField = 'Humedad';
 
-      //genero el selector para filtrar los datos (todos backward)
-      var selectorOptions = {
-          buttons: [{
-              step: 'day',
-              stepmode: 'backward',
-              count: 1,
-              label: 'Día'
-          }, {
-              step: 'day',
-              stepmode: 'backward',
-              count: 7,
-              label: 'Semana'
-          }, {
-              step: 'all',
-          }],
+        //genero el selector para filtrar los datos (todos backward)
+        var selectorOptions = {
+            buttons: [{
+                step: 'day',
+                stepmode: 'backward',
+                count: 1,
+                label: 'Día'
+            }, {
+                step: 'day',
+                stepmode: 'backward',
+                count: 7,
+                label: 'Semana'
+            }, {
+                step: 'all',
+            }],
+        };
+
+        //Creo una variable global de datos
+        var data = [node1_data,node2_data,node3_data,node4_data];
+
+        //Finalmente creo la grafica
+        var gr = Plotly.plot('temperatura_1', data , {
+          title:'DHT22',
+          xaxis: {title: 'Tiempo',
+                  rangeselector: selectorOptions,
+                  //rangeslider: {}
+                },
+          yaxis: {title: 'Temperatura (°C)',
+                  type: 'log',
+                  fixedrange: true},
+          margin: {t: 20},
+          autosize: true,
+          });
+        }
+      });
+
+    window.onresize = function() {
+      Plotly.Plots.resize(gr);
+    };
+
+  </script>
+  <!-- JS - Temperatura_2 -->
+  <script type="text/javascript">
+
+  Plotly.d3.json('{% url 'wsn:api_graph_lab' %}', function(dat_fig){
+    //aux arrays
+    var x_data_node1 = [],
+        x_data_node2 = [],
+        x_data_node3 = [],
+        x_data_node4 = [];
+
+    var y_data_node1 = [],
+        y_data_node2 = [],
+        y_data_node3 = [],
+        y_data_node4 = [];
+
+    //asigno a las variables los datos de los nodos
+    for (i = 0; i < dat_fig.length; i++) {
+      if(dat_fig[i].filtro == "Nodo_1_Temperatura_MCP9808")
+        x_data_node1.push(dat_fig[i].timestamp);
+        y_data_node1.push(dat_fig[i].data);
+      if(dat_fig[i].filtro == "Nodo_2_Temperatura_MCP9808")
+        x_data_node2.push(dat_fig[i].timestamp);
+        y_data_node2.push(dat_fig[i].data);
+      if(dat_fig[i].filtro == "Nodo_3_Temperatura_MCP9808")
+        x_data_node3.push(dat_fig[i].timestamp);
+        y_data_node3.push(dat_fig[i].data);
+      if(dat_fig[i].filtro == "Nodo_4_Temperatura_MCP9808")
+        x_data_node4.push(dat_fig[i].timestamp);
+        y_data_node4.push(dat_fig[i].data);
+    }
+
+    if (x_data_node1[0] != null || x_data_node2[0] != null || x_data_node3[0] != null || x_data_node4[0] != null)  {
+
+      var node1_data = {
+          x: x_data_node1,
+          y: y_data_node1,
+          type: 'scatter',
+          line: {shape: 'spline'},
+          name: 'Nodo_1'
+      };
+      var node2_data = {
+          x: x_data_node2,
+          y: y_data_node2,
+          type: 'scatter',
+          line: {shape: 'spline'},
+          name: 'Nodo_2'
+      };
+      var node3_data = {
+          x: x_data_node3,
+          y: y_data_node3,
+          type: 'scatter',
+          line: {shape: 'spline'},
+          name: 'Nodo_3'
+      };
+      var node4_data = {
+          x: x_data_node4,
+          y: y_data_node4,
+          type: 'scatter',
+          line: {shape: 'spline'},
+          name: 'Nodo_4'
       };
 
-      //Creo una variable global de datos
-      var data = [node1_data,node2_data,node3_data,node4_data];
+        //seteo el tipo de variable del selector
+        var xField = 'Date';
+        var yField = 'Humedad';
 
-      //Finalmente creo la grafica
-      var gr = Plotly.plot('humedad', data , {
-        title:'DHT22',
-        xaxis: {title: 'Tiempo',
-                rangeselector: selectorOptions,
-                //rangeslider: {}
-              },
-        yaxis: {title: 'Humedad (%)',
-                type: 'log',
-                fixedrange: true},
-        margin: {t: 20},
-        autosize: true,
-        });
+        //genero el selector para filtrar los datos (todos backward)
+        var selectorOptions = {
+            buttons: [{
+                step: 'day',
+                stepmode: 'backward',
+                count: 1,
+                label: 'Día'
+            }, {
+                step: 'day',
+                stepmode: 'backward',
+                count: 7,
+                label: 'Semana'
+            }, {
+                step: 'all',
+            }],
+        };
 
+        //Creo una variable global de datos
+        var data = [node1_data,node2_data,node3_data,node4_data];
+
+        //Finalmente creo la grafica
+        var gr = Plotly.plot('temperatura_2', data , {
+          title:'MCP9808',
+          xaxis: {title: 'Tiempo',
+                  rangeselector: selectorOptions,
+                  //rangeslider: {}
+                },
+          yaxis: {title: 'Temperatura (°C)',
+                  type: 'log',
+                  fixedrange: true},
+          margin: {t: 20},
+          autosize: true,
+          });
+        }
+    });
+
+    window.onresize = function() {
+      Plotly.Plots.resize(gr);
+    };
+
+  </script>
+  <!-- JS - Humedad -->
+    <script type="text/javascript">
+
+    Plotly.d3.json('{% url 'wsn:api_graph_lab' %}', function(dat_fig){
+      //aux arrays
+      var x_data_node1 = [],
+          x_data_node2 = [],
+          x_data_node3 = [],
+          x_data_node4 = [];
+
+      var y_data_node1 = [],
+          y_data_node2 = [],
+          y_data_node3 = [],
+          y_data_node4 = [];
+
+      //asigno a las variables los datos de los nodos
+      for (i = 0; i < dat_fig.length; i++) {
+        if(dat_fig[i].filtro == "Nodo_1_Humedad_DHT22")
+          x_data_node1.push(dat_fig[i].timestamp);
+          y_data_node1.push(dat_fig[i].data);
+        if(dat_fig[i].filtro == "Nodo_2_Humedad_DHT22")
+          x_data_node2.push(dat_fig[i].timestamp);
+          y_data_node2.push(dat_fig[i].data);
+        if(dat_fig[i].filtro == "Nodo_3_Humedad_DHT22")
+          x_data_node3.push(dat_fig[i].timestamp);
+          y_data_node3.push(dat_fig[i].data);
+        if(dat_fig[i].filtro == "Nodo_4_Humedad_DHT22")
+          x_data_node4.push(dat_fig[i].timestamp);
+          y_data_node4.push(dat_fig[i].data);
+      }
+
+      if (x_data_node1[0] != null || x_data_node2[0] != null || x_data_node3[0] != null || x_data_node4[0] != null)  {
+
+        //Cargo las variables de cada nodo con la información de X e Y
+        var node1_data = {
+            x: x_data_node1,
+            y: y_data_node1,
+            type: 'scatter',
+            line: {shape: 'spline'},
+            name: 'Nodo_1'
+        };
+        var node2_data = {
+            x: x_data_node2,
+            y: y_data_node2,
+            type: 'scatter',
+            line: {shape: 'spline'},
+            name: 'Nodo_2'
+        };
+        var node3_data = {
+            x: x_data_node3,
+            y: y_data_node3,
+            type: 'scatter',
+            line: {shape: 'spline'},
+            name: 'Nodo_3'
+        };
+        var node4_data = {
+            x: x_data_node4,
+            y: y_data_node4,
+            type: 'scatter',
+            line: {shape: 'spline'},
+            name: 'Nodo_4'
+        };
+
+        //seteo el tipo de variable del selector
+        var xField = 'Date';
+        var yField = 'Humedad';
+
+        //genero el selector para filtrar los datos (todos backward)
+        var selectorOptions = {
+            buttons: [{
+                step: 'day',
+                stepmode: 'backward',
+                count: 1,
+                label: 'Día'
+            }, {
+                step: 'day',
+                stepmode: 'backward',
+                count: 7,
+                label: 'Semana'
+            }, {
+                step: 'all',
+            }],
+        };
+
+        //Creo una variable global de datos
+        var data = [node1_data,node2_data,node3_data,node4_data];
+
+        //Finalmente creo la grafica
+        var gr = Plotly.plot('humedad', data , {
+          title:'DHT22',
+          xaxis: {title: 'Tiempo',
+                  rangeselector: selectorOptions,
+                  //rangeslider: {}
+                },
+          yaxis: {title: 'Humedad (%)',
+                  type: 'log',
+                  fixedrange: true},
+          margin: {t: 20},
+          autosize: true,
+          });
+        } //endif
     });
 
     window.onresize = function() {
@@ -860,24 +847,218 @@
     };
 
     </script>
+    <!-- JS - presion atmosferica -->
+    <script type="text/javascript">
 
-  <!--//Nivel freatico
-  //Plotly.newPlot('freatico', data , {
-  //  xaxis: {title: 'Tiempo'},
-  //  yaxis: {title: 'Nivel freatico ', type: 'log'},
-  //  margin: {t: 20},
-  //  updatemenus: [Menudesplegable]
-  //  }
-  //);
-  //Presion barometrica
-  //Gotas -->
+    Plotly.d3.json('{% url 'wsn:api_graph_lab' %}', function(dat_fig){
+      //aux arrays
+      var x_data_node1 = [],
+          x_data_node2 = [],
+          x_data_node3 = [],
+          x_data_node4 = [];
 
-  <!-- <script type='text/javascript' src="{% static "js/leaf-map.js" %}"></script>
-  <script type='text/javascript' src="{% static "js/map.json" %}"></script> -->
-  <!-- Optionally, you can add Slimscroll and FastClick plugins.
-  <script type='text/javascript' src="{% static "js/searchengine.js" %}"></script>
-  Both of these plugins are recommended to enhance the
-  user experience. Slimscroll is required when using the
-  fixed layout. -->
+      var y_data_node1 = [],
+          y_data_node2 = [],
+          y_data_node3 = [],
+          y_data_node4 = [];
+
+      //asigno a las variables los datos de los nodos
+      for (i = 0; i < dat_fig.length; i++) {
+        if(dat_fig[i].filtro == "Nodo_1_Presión_atmosferica_BMP183")
+          x_data_node1.push(dat_fig[i].timestamp);
+          y_data_node1.push(dat_fig[i].data);
+        if(dat_fig[i].filtro == "Nodo_2_Presión_atmosferica_BMP183")
+          x_data_node2.push(dat_fig[i].timestamp);
+          y_data_node2.push(dat_fig[i].data);
+        if(dat_fig[i].filtro == "Nodo_3_Presión_atmosferica_BMP183")
+          x_data_node3.push(dat_fig[i].timestamp);
+          y_data_node3.push(dat_fig[i].data);
+        if(dat_fig[i].filtro == "Nodo_4_Presión_atmosferica_BMP183")
+          x_data_node4.push(dat_fig[i].timestamp);
+          y_data_node4.push(dat_fig[i].data);
+      }
+
+      if (x_data_node1[0] != null || x_data_node2[0] != null || x_data_node3[0] != null || x_data_node4[0] != null)  {
+        var node1_data = {
+            x: x_data_node1,
+            y: y_data_node1,
+            type: 'scatter',
+            line: {shape: 'spline'},
+            name: 'Nodo_1'
+        };
+        var node2_data = {
+            x: x_data_node2,
+            y: y_data_node2,
+            type: 'scatter',
+            line: {shape: 'spline'},
+            name: 'Nodo_2'
+        };
+        var node3_data = {
+            x: x_data_node3,
+            y: y_data_node3,
+            type: 'scatter',
+            line: {shape: 'spline'},
+            name: 'Nodo_3'
+        };
+        var node4_data = {
+            x: x_data_node4,
+            y: y_data_node4,
+            type: 'scatter',
+            line: {shape: 'spline'},
+            name: 'Nodo_4'
+        };
+
+          //seteo el tipo de variable del selector
+          var xField = 'Date';
+          var yField = 'Presión';
+
+          //genero el selector para filtrar los datos (todos backward)
+          var selectorOptions = {
+              buttons: [{
+                  step: 'day',
+                  stepmode: 'backward',
+                  count: 1,
+                  label: 'Día'
+              }, {
+                  step: 'day',
+                  stepmode: 'backward',
+                  count: 7,
+                  label: 'Semana'
+              }, {
+                  step: 'all',
+              }],
+          };
+
+          //Creo una variable global de datos
+          var data = [node1_data,node2_data,node3_data,node4_data];
+
+          //Finalmente creo la grafica
+          var gr = Plotly.plot('presion', data , {
+            title:'BMP138',
+            xaxis: {title: 'Tiempo',
+                    rangeselector: selectorOptions,
+                    //rangeslider: {}
+                  },
+            yaxis: {title: 'Presión (Pa)',
+                    type: 'log',
+                    fixedrange: true},
+            margin: {t: 20},
+            autosize: true,
+            });
+          } //endif
+        });
+
+      window.onresize = function() {
+        Plotly.Plots.resize(gr);
+      };
+
+    </script>
+
+        <script type="text/javascript">
+
+        Plotly.d3.json('{% url 'wsn:api_graph_lab' %}', function(dat_fig){
+          //aux arrays
+          var x_data_node1 = [],
+              x_data_node2 = [],
+              x_data_node3 = [],
+              x_data_node4 = [];
+
+          var y_data_node1 = [],
+              y_data_node2 = [],
+              y_data_node3 = [],
+              y_data_node4 = [];
+
+          //asigno a las variables los datos de los nodos
+          for (i = 0; i < dat_fig.length; i++) {
+            if(dat_fig[i].filtro == "Nodo_1_Distancia_GP2Y0A710K0F")
+              x_data_node1.push(dat_fig[i].timestamp);
+              y_data_node1.push(dat_fig[i].data);
+            if(dat_fig[i].filtro == "Nodo_2_Distancia_GP2Y0A710K0F")
+              x_data_node2.push(dat_fig[i].timestamp);
+              y_data_node2.push(dat_fig[i].data);
+            if(dat_fig[i].filtro == "Nodo_3_Distancia_GP2Y0A710K0F")
+              x_data_node3.push(dat_fig[i].timestamp);
+              y_data_node3.push(dat_fig[i].data);
+            if(dat_fig[i].filtro == "Nodo_4_Distancia_GP2Y0A710K0F")
+              x_data_node4.push(dat_fig[i].timestamp);
+              y_data_node4.push(dat_fig[i].data);
+          }
+
+          if (x_data_node1[0] != null || x_data_node2[0] != null || x_data_node3[0] != null || x_data_node4[0] != null)  {
+            var node1_data = {
+                x: x_data_node1,
+                y: y_data_node1,
+                type: 'scatter',
+                line: {shape: 'spline'},
+                name: 'Nodo_1'
+            };
+            var node2_data = {
+                x: x_data_node2,
+                y: y_data_node2,
+                type: 'scatter',
+                line: {shape: 'spline'},
+                name: 'Nodo_2'
+            };
+            var node3_data = {
+                x: x_data_node3,
+                y: y_data_node3,
+                type: 'scatter',
+                line: {shape: 'spline'},
+                name: 'Nodo_3'
+            };
+            var node4_data = {
+                x: x_data_node4,
+                y: y_data_node4,
+                type: 'scatter',
+                line: {shape: 'spline'},
+                name: 'Nodo_4'
+            };
+
+              //seteo el tipo de variable del selector
+              var xField = 'Date';
+              var yField = 'Nivel';
+
+              //genero el selector para filtrar los datos (todos backward)
+              var selectorOptions = {
+                  buttons: [{
+                      step: 'day',
+                      stepmode: 'backward',
+                      count: 1,
+                      label: 'Día'
+                  }, {
+                      step: 'day',
+                      stepmode: 'backward',
+                      count: 7,
+                      label: 'Semana'
+                  }, {
+                      step: 'all',
+                  }],
+              };
+
+              //Creo una variable global de datos
+              var data = [node1_data,node2_data,node3_data,node4_data];
+
+              //Finalmente creo la grafica
+              var gr = Plotly.plot('freatico', data , {
+                title:'GP2Y0A710K0F',
+                xaxis: {title: 'Tiempo',
+                        rangeselector: selectorOptions,
+                        //rangeslider: {}
+                      },
+                yaxis: {title: 'Nivel (Mts)',
+                        type: 'log',
+                        fixedrange: true},
+                margin: {t: 20},
+                autosize: true,
+                });
+              } //endif
+            });
+
+          window.onresize = function() {
+            Plotly.Plots.resize(gr);
+          };
+
+        </script>
+
   </body>
   </html>

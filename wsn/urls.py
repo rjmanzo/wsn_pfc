@@ -40,14 +40,15 @@ urlpatterns = [
         view= views.DatosTablaLabList.as_view(),
         name= 'api_graph_lab'
     ),
-    url(
-        regex='^api-locations-lab/$',
-        view= views.LocacionesLabList.as_view(),
-        name= 'api_locations_lab'
-    ),
+    #url(
+    #    regex='^api-locations-nodes/$',
+    #    view= views.LocacionesNodosList.as_view(),
+    #    name= 'api_locations_lab'
+    #),
     url(
         regex='^api-table-lab/$',
         view = views.TablaLabsListJson.as_view(),
         name='tabla_lab_list_json'
     ),
+    #url(r'^locaciones.json$', views.LocacionesLayer.as_view(properties=('locacion_descrip','wsn_descrip')), name='locaciones_nodos'),
 ]

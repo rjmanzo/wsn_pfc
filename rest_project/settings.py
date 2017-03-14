@@ -32,13 +32,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'whitenoise.runserver_nostatic',
+    'django_pgviews',
     'rest_framework',
-    'rest_framework_gis',
-    'wsn',
     'djgeojson',
     'leaflet',
     'corsheaders',
     'django_datatables_view',
+    'wsn',
 ]
 
 MIDDLEWARE_CLASSES = [

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from djgeojson.fields import PointField
+from django_pgviews import view as pg
 
 """ Esta pequeña tabla es agegada al modelo
 para guardar las configuraciones de la aplicación """
@@ -124,15 +125,71 @@ class Dato(models.Model):
         default_related_name = 'dato'
 
 """
-VISTAS
-METODO POCO ELEGANTE PERO FUNCIONAL PARA PODER UTILIZAR VISTAS DE LA BASE DE DATOS
-PRECAUCIÓN: PARA PODER EJECUTAR ESTE MODELO HAY QUE HACER LOS SIGUIENTES PASOS:
-1. EJECUTAR TODOS LOS MODELOS PREVIOS A ESTE.
-2. CREAR LA VIEW EN LA BASE DE DATOS
-3. EJECUTAR ESTE MODELO
+modelos construidos en base a vistas Postgre ---------------------------------------
 """
 
-class DatosTablaLab(models.Model):
+VIEW_SQL_BAT = """
+    SELECT  d.dato_id,
+            ((n.nod_descrip::text || '('::text) || l.locacion_descrip::text) || ')'::text AS nodo,
+            w.wsn_id AS red_id,
+            w.wsn_descrip AS red,
+            d.data,
+            d.fechahora AS fecha_hora
+
+    FROM dato d
+    LEFT JOIN nodo_red nr ON nr.nod_red_id = d.nod_red_id
+    LEFT JOIN wsn w ON w.wsn_id = nr.wsn_id
+    LEFT JOIN nodo n ON n.nodo_id = nr.nod_id
+    LEFT JOIN sensor s ON s.sen_id = d.sen_id
+    LEFT JOIN tipo_sensor ts ON ts.type_sen_id = s.type_sen_id
+    LEFT JOIN locacion l ON l.locacion_id = nr.locacion_id
+    WHERE s.sen_descrip = 'Tensión'
+"""
+
+class BatteryLife(pg.View):
+    dato_id = models.IntegerField(primary_key=True)
+    nodo = models.TextField()
+    red_id = models.IntegerField()
+    data = models.FloatField()
+    fecha_hora = models.DateTimeField()
+    #projection = ['dato.*',]
+    #dependencies = ['myapp.OtherView',]
+    sql = VIEW_SQL_BAT
+
+    def __str__(self):
+        dato = self.nodo +' (' + self.data + ') -' + self.fechahora.strftime("%Y-%m-%d %H:%M:%S")
+        return dato
+
+    class Meta:
+        #app_label = 'myapp'
+        db_table = 'battery_life'
+        default_related_name = 'battery_life'
+        managed = False
+
+VIEW_SQL_TDLAB = """
+    SELECT  d.dato_id,
+            n.nod_descrip||'_'||ts.type_sen_descrip||'_'||s.sen_descrip as filtro,
+            n.nod_descrip as nodo,
+            r.rol_descrip as rol,
+            l.locacion_descrip as locacion,
+            ts.type_sen_descrip as tipo_sensor,
+            s.sen_descrip as sensor,
+            d.data,
+            d.fechahora as fecha_hora,
+            to_char(fechahora AT TIME ZONE 'UTC+3', 'YYYY-MM-DD HH24:MI:SS') as fecha_hora_text
+
+    FROM dato d
+    LEFT JOIN nodo_red nr ON nr.nod_red_id = d.nod_red_id
+    LEFT JOIN rol r ON r.rol_id = nr.rol_id
+    LEFT JOIN wsn w ON w.wsn_id = nr.wsn_id
+    LEFT JOIN nodo n ON n.nodo_id = nr.nod_id
+    LEFT JOIN sensor s ON s.sen_id = d.sen_id
+    LEFT JOIN tipo_sensor ts ON ts.type_sen_id = s.type_sen_id
+    LEFT JOIN locacion l ON l.locacion_id = nr.locacion_id
+    where w.wsn_id = 1
+"""
+
+class DatosLab(pg.View):
     dato_id = models.IntegerField(primary_key=True)
     filtro = models.TextField()
     nodo = models.CharField(max_length=300)
@@ -143,25 +200,51 @@ class DatosTablaLab(models.Model):
     data = models.FloatField()
     fecha_hora = models.DateTimeField()
     fecha_hora_text = models.TextField()
+    #projection = ['dato.*',]
+    #dependencies = ['myapp.OtherView',]
+    sql = VIEW_SQL_TDLAB
 
     def __str__(self):
         dato = self.nodo +" ("+self.locacion+ ") - " + self.fecha_hora.strftime("%Y-%m-%d %H:%M:%S")
         return dato
 
     class Meta:
+        #app_label = 'myapp'
+        db_table = 'datos_lab'
+        default_related_name = 'datos_lab'
         managed = False
-        db_table = 'datos_tabla_lab'
-        default_related_name = 'datos_tabla_lab'
 
-class LocacionesLab(models.Model):
+VIEW_SQL_LOC = """
+SELECT  l.locacion_id,
+            n.nod_descrip||'('|| l.locacion_descrip ||')' as locacion_descrip,
+            w.wsn_descrip,
+            l.geom
+
+FROM nodo_red nr
+LEFT JOIN wsn w ON w.wsn_id = nr.wsn_id
+LEFT JOIN nodo n ON n.nodo_id = nr.nod_id
+LEFT JOIN locacion l ON l.locacion_id = nr.locacion_id
+WHERE nr.fecha_hasta is null
+"""
+
+class LocacionesNodo(pg.View):
     locacion_id = models.IntegerField(primary_key=True)
     locacion_descrip = models.TextField()
+    wsn_descrip = models.CharField(max_length=300)
     geom = PointField()
+    #projection = ['dato.*',]
+    #dependencies = ['myapp.OtherView',]
+    sql = VIEW_SQL_LOC
 
     def __str__(self):
         return self.locacion_descrip
 
     class Meta:
+        #app_label = 'myapp'
+        db_table = 'locaciones_nodos'
+        default_related_name = 'locaciones_nodos'
         managed = False
-        db_table = 'locaciones_lab'
-        default_related_name = 'locaciones_lab'
+
+    @property
+    def popupContent(self):
+      return self.locacion_descrip

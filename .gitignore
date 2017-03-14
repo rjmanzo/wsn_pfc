@@ -1,5 +1,4 @@
 *.pyc
-<<<<<<< HEAD
 
 __pycache__/
 *.py[cod]
@@ -20,11 +19,6 @@ env/
 .env
 
 staticfiles
-
-db.sqlite3
-=======
 db.sqlite3
 myvenv
-__pycache__
 local_settings.py
->>>>>>> 98583686e58ee0b5cd83b77cfd1cae52f837093d
