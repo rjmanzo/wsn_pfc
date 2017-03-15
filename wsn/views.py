@@ -5,9 +5,7 @@ from django.utils import timezone
 from rest_framework.generics import ListCreateAPIView, ListAPIView
 from wsn.serializers import ConfiguracionSerializers, DatoSerializers, DatosTablaLabSerializers #, LocacionesNodoSerializers
 from wsn.models import Dato, Configuracion, Locacion, BatteryLife, DatosLab, LocacionesNodo
-""" django.views.generic import TemplateView"""
 from django_datatables_view.base_datatable_view import BaseDatatableView
-#from djgeojson.views import GeoJSONLayerView
 
 """#App Principal"""
 @login_required
@@ -20,18 +18,21 @@ def main_page(request):
 
 @login_required
 def lab_page(request):
-    locaciones_lab = LocacionesNodo.objects.all().filter(wsn_descrip='Prueba de Laboratorio')
-    return render(request, 'wsn/starter.html', {'locaciones_lab':locaciones_lab})
+    locaciones = LocacionesNodo.objects.all().filter(wsn_descrip='Prueba de Laboratorio') #locaciones lab
+    bat = BatteryLife.objects.all().filter(wsn_descrip='Prueba de Laboratorio', data__lte = 3.8) # tension de nodos lab / menores a 3.8 bateria baja (lte <=)
+    return render(request, 'wsn/starter.html', {'locaciones':locaciones, 'bat':bat})
 
 @login_required
 def campo_uno_page(request):
-    locaciones_lab = LocacionesNodo.objects.all().filter(wsn_descrip='Prueba de campo Nro. 1')
-    return render(request, 'wsn/starter.html', {})
+    locaciones = LocacionesNodo.objects.all().filter(wsn_descrip='Prueba de campo Nro. 1')
+    bat = BatteryLife.objects.all().filter(wsn_descrip='Prueba de campo Nro. 1', data__lte = 3.8) # tension de nodos lab / menores a 3.8 bateria baja (lte <=)
+    return render(request, 'wsn/starter.html', {'locaciones':locaciones, 'bat':bat})
 
 @login_required
 def campo_dos_page(request):
-    locaciones_lab = LocacionesNodo.objects.all().filter(wsn_descrip='Prueba de campo Nro. 2')
-    return render(request, 'wsn/starter.html', {})
+    locaciones = LocacionesNodo.objects.all().filter(wsn_descrip='Prueba de campo Nro. 2')
+    bat = BatteryLife.objects.all().filter(wsn_descrip='Prueba de campo Nro. 2', data__lte = 3.8) # tension de nodos lab / menores a 3.8 bateria baja (lte <=)
+    return render(request, 'wsn/starter.html', {'locaciones':locaciones, 'bat':bat})
 
 """#REST views--------------------------"""
 class DatoList(ListCreateAPIView):
@@ -46,15 +47,6 @@ class ConfiguracionList(ListCreateAPIView):
 class DatosTablaLabList(ListAPIView):
     queryset = DatosLab.objects.all()
     serializer_class = DatosTablaLabSerializers
-
-#"""#Genero el Json para las locaciones del mapa"""
-#class LocacionesNodosList(ListAPIView):
-#    queryset = LocacionesNodo.objects.all()
-#    """#cuando entramos en esta vista mediante api-locations-lab nos carga directamente el Json
-    # Esto sucede por que renderizamos con JSONRenderer y por q a su vez el parser por defecto es JSONParser
-    #renderer_classes = (JSONRenderer, )
-    #parser_classes = (JSONParser,)"""
-#    serializer_class = LocacionesNodoSerializers
 
 """#datatables Json generator"""
 class TablaLabsListJson(BaseDatatableView):

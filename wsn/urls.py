@@ -40,11 +40,6 @@ urlpatterns = [
         view= views.DatosTablaLabList.as_view(),
         name= 'api_graph_lab'
     ),
-    #url(
-    #    regex='^api-locations-nodes/$',
-    #    view= views.LocacionesNodosList.as_view(),
-    #    name= 'api_locations_lab'
-    #),
     url(
         regex='^api-table-lab/$',
         view = views.TablaLabsListJson.as_view(),

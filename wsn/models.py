@@ -131,8 +131,8 @@ modelos construidos en base a vistas Postgre -----------------------------------
 VIEW_SQL_BAT = """
     SELECT  d.dato_id,
             ((n.nod_descrip::text || '('::text) || l.locacion_descrip::text) || ')'::text AS nodo,
-            w.wsn_id AS red_id,
-            w.wsn_descrip AS red,
+            w.wsn_id,
+            w.wsn_descrip,
             d.data,
             d.fechahora AS fecha_hora
 
@@ -149,7 +149,8 @@ VIEW_SQL_BAT = """
 class BatteryLife(pg.View):
     dato_id = models.IntegerField(primary_key=True)
     nodo = models.TextField()
-    red_id = models.IntegerField()
+    wsn_id = models.IntegerField()
+    wsn_descrip = models.CharField(max_length=300)
     data = models.FloatField()
     fecha_hora = models.DateTimeField()
     #projection = ['dato.*',]
@@ -157,7 +158,7 @@ class BatteryLife(pg.View):
     sql = VIEW_SQL_BAT
 
     def __str__(self):
-        dato = self.nodo +' (' + self.data + ') -' + self.fechahora.strftime("%Y-%m-%d %H:%M:%S")
+        dato = self.nodo +' [' +'] ' +self.fecha_hora.strftime("%Y-%m-%d %H:%M:%S")
         return dato
 
     class Meta:

@@ -14,19 +14,21 @@
     <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
-    <!-- <link rel="stylesheet" href="{% static "css/font-awesome.min.css" %}"> -->
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
-    <!-- <link rel="stylesheet" href="{% static "css/ionicons.min.css" %}"> -->
     <!-- Theme style -->
     <link rel="stylesheet" href="{% static "css/AdminLTE.min.css" %}">
     <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="{% static "css/skin-green-light.min.css" %}">
-
+    <!-- datatables style -->
     <link rel="stylesheet" href="http://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.2.0/css/rowReorder.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.dataTables.min.css">
+
+    <!-- Boostrap style -->
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.2.4/css/buttons.dataTables.min.css">
-    <!-- temporal -->
+    <!-- leaflet style -->
 	  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css">
 	  <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
 
@@ -57,51 +59,53 @@
             <!-- Messages: style can be found in dropdown.less-->
             <li class="dropdown messages-menu">
               <!-- Menu toggle button -->
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <i class="fa fa-flag-o"></i>
-                <span class="label label-danger">1</span>
-                <!-- <span class="label label-warning">1</span> -->
-                <!-- <span class="label label-success">1</span> -->
-              </a>
-              <ul class="dropdown-menu">
-                <li class="header">Notificaciones</li>
-                <li>
-                  <!-- inner menu: contains the messages -->
-                  <ul class="menu">
-                    <li><!-- start message -->
-                      <a href="#">
-                        <div class="pull-left">
-                          <!-- User Image -->
-                          {% if user.username == "ceneha" %}
-                          <img src="{% static "img/ceneha.jpg" %}" class="img-circle" alt="User Image">
-                          {% else %}
-                          <img src="{% static "img/invite.png" %}" class="img-circle" alt="User Image">
-                          {%endif%}
-                        </div>
-                        <!-- Message title and timestamp -->
-                        <h4>
-                          <!-- {{ user.username }} --> <!-- colocar el usuario -->
-                          ceneha
-                          <small><i class="fa fa-clock-o"></i> 5 mins <!-- poner directamente la hora del msj y listo--> </small>
-                        </h4>
-                        <!-- The message -->
-                        <p>Batería baja - Nodo 1</p>
-                      </a>
-                    </li>
-                    <!-- end message -->
-                  </ul>
-                  <!-- /.menu -->
-                </li>
-                <li class="footer"><a href="#"> Ver todas las notificaciones</a></li>
-              </ul>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <i class="fa fa-flag-o"></i>
+                  {% if bat %}
+                  <span class="label label-danger">{{ bat|length }}</span>
+                  {% else %}
+                  <span class="label label-danger"></span>
+                  {% endif %}                  
+                </a>
+                {% if bat %}
+                {% for e in bat %}
+                <ul class="dropdown-menu">
+                  <li class="header">Notificaciones</li>
+                  <li>
+                    <!-- inner menu: contains the messages -->
+                    <ul class="menu">
+                      <li><!-- start message -->
+                        <a href="#">
+                          <div class="pull-left">
+                            <!-- User Image -->
+                            <img src="{% static "img/warning.png" %}" class="img-circle" alt="User Image">
+                          </div>
+                          <!-- Message title and timestamp -->
+                          <h4>
+                            <!-- {{ user.username }} --> <!-- colocar el usuario -->
+                            {{ e.nodo }}
+                            <small><i class="fa fa-clock-o"> </i> {{ e.fecha_hora.time }} <!-- poner directamente la hora del msj y listo--> </small>
+                          </h4>
+                          <!-- The message -->
+                          <p>Batería baja - {{ e.fecha_hora.date }} </p>
+                        </a>
+                        {% endfor %}
+                      </li>
+                      <!-- end message -->
+                    </ul>
+                    <!-- /.menu -->
+                  </li>
+                  <!-- <li class="footer"><a href="#"> Ver todas las notificaciones</a></li> -->
+                </ul>
+              {% endif %}
             </li>
             <!-- User Account Menu -->
             <li class="dropdown user user-menu">
               <!-- Menu Toggle Button -->
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <!-- The user image in the navbar-->
-                <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                <span class="hidden-xs">{{ user.username }} <i class="fa fa-gears"></i></span>
+                <!-- hidden-xs-down hides the username on small devices so only the image appears. -->
+                <span class="hidden-xs-up"><i class="fa fa-gears"></i></span>
               </a>
               <ul class="dropdown-menu">
                 <!-- The user image in the menu -->
@@ -143,8 +147,8 @@
     </ul>
   </li>
   <!-- Control Sidebar Toggle Button -->
-  <!--<li>
-    <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+  <!-- <li>
+      <a href="{% url 'django.contrib.auth.views.logout' %}" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
   </li> -->
   </ul>
   </div>
@@ -155,7 +159,6 @@
 
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
-
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel">
         <div class="pull-left image">
@@ -184,10 +187,10 @@
       <!-- /.search form -->
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu">
-        <li class="header"><font size="2">Menu </font></li>
+        <li class="header"><font size="2.5"> Menu </font></li>
         <!-- Optionally, you can add icons to the links -->
         <li class="active"><a href="{%url 'wsn:lab' %}"><i class="fa fa-dashboard"></i><span>Pruebas de Laboratorio</span></a></li>
-        <li><a href="{%url 'wsn:campo_uno' %}"><i class="fa fa-pie-chart"></i> <span>Pruebas de Campo N° 1</span></a></li>
+        <li><a href="{%url 'wsn:campo_uno' %}"><i class="fa fa-bar-chart"></i> <span>Pruebas de Campo N° 1</span></a></li>
         <li><a href="{%url 'wsn:campo_dos' %}"><i class="fa fa-pie-chart"></i> <span>Pruebas de Campo N° 2</span></a></li>
         <li><a href="{% url 'admin:index' %}"><i class="fa fa-edit"></i> <span>Administración</span></a></li>
       </ul>
@@ -252,7 +255,7 @@
                 L.control.layers(baseLayers).addTo(mymap);
 
                 //Cargo las locaciones de los nodos actuales
-                var collection = {{locaciones_lab|geojsonfeature:"popupContent"|safe }};
+                var collection = {{locaciones|geojsonfeature:"popupContent"|safe }};
 
                 function LocationsPlaces(feature, layer) {
                 // does this feature have a property named popupContent?
@@ -278,8 +281,22 @@
           <!-- /.box-body -->
         </div>
         <!--/. box-->
+        <!-- Tension: Estado de las baterias del sistema -->
+        <div class="box box-primary collapsed-box">
+            <div class="box-header with-border">
+              <h3 class="box-title">Nivel de batería</h3>
+
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                  <i class="fa fa-plus"></i></button>
+              </div>
+            </div>
+            <div class="box-body">
+               <div id="bateria" width="100%" cellspacing="0"><!-- Plotly chart will be drawn inside this DIV --></div>
+            </div>
+          </div>
           <!-- Tabla de datos del sistema -->
-           <div class="box">
+           <div class="box box-warning">
             <div class="box-header">
               <h3 class="box-title">Tabla de datos</h3>
             </div>
@@ -313,7 +330,7 @@
           </div>
           <!-- /.box -->
         <!-- grafica de temperatura global -->
-        <div class="box box-primary">
+        <div class="box box-info">
           <div class="box-header with-border">
             <h3 class="box-title">Gráficas - temperatura</h3>
 
@@ -323,13 +340,12 @@
             </div>
           </div>
           <div class="box-body">
-            <!-- <div id="temperatura" style="height: 250px;"></div> -->
             <div id="temperatura_1" width="100%" cellspacing="0"><!-- Plotly chart will be drawn inside this DIV --></div>
             <div id="temperatura_2" width="100%" cellspacing="0"><!-- Plotly chart will be drawn inside this DIV --></div>
           </div>
         </div>
         <!-- grafica de humedad global -->
-        <div class="box box-info">
+        <div class="box box-danger">
             <div class="box-header with-border">
               <h3 class="box-title">Gráficas - Humedad</h3>
 
@@ -339,12 +355,11 @@
               </div>
             </div>
             <div class="box-body">
-              <!-- <div id="humedad" style="height: 250px;"></div> -->
               <div id="humedad" width="100%" cellspacing="0"><!-- Plotly chart will be drawn inside this DIV --></div>
             </div>
           </div>
           <!-- grafica de nivel freatico global -->
-          <div class="box box-info">
+          <div class="box box-primary">
               <div class="box-header with-border">
                 <h3 class="box-title">Gráficas - Presión atmosférica</h3>
 
@@ -354,11 +369,10 @@
                 </div>
               </div>
               <div class="box-body">
-                <!-- <div id="freatico" style="height: 250px;"></div> -->
                  <div id="presion" width="100%" cellspacing="0"><!-- Plotly chart will be drawn inside this DIV --></div>
               </div>
             </div>
-            <div class="box box-info">
+            <div class="box box-success">
                 <div class="box-header with-border">
                   <h3 class="box-title">Gráficas - Nivel freático</h3>
 
@@ -368,7 +382,6 @@
                   </div>
                 </div>
                 <div class="box-body">
-                  <!-- <div id="freatico" style="height: 250px;"></div> -->
                    <div id="freatico" width="100%" cellspacing="0"><!-- Plotly chart will be drawn inside this DIV --></div>
                 </div>
               </div>
@@ -480,6 +493,8 @@
   <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
   <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
   <script src="https://cdn.datatables.net/buttons/1.2.4/js/buttons.html5.min.js"></script>
+  <script src="https://cdn.datatables.net/rowreorder/1.2.0/js/dataTables.rowReorder.min.js"></script>
+  <script src="https://cdn.datatables.net/responsive/2.1.1/js/dataTables.responsive.min.js "></script>
   <!-- datatables Js serverSide -->
   <!-- <script src="{% static "js/datostabla.js" %}"></script> -->
   <!-- Plot.ly JS -->
@@ -493,7 +508,7 @@
       $(document).ready(function() {
         var table = $('#DataTable').DataTable({
               "language": language_d,  // global variable defined in html
-              'ordering': [[ , "asc" ]],
+              'ordering': [[6 , "asc" ]],
               "dom": 'lBfrtip',
                   buttons: [
                   'csv','pdf'
@@ -505,6 +520,10 @@
               "stateSave": true,
               "legacyAjax": true,
               "ajax": TABLA_LIST_JSON_URL,
+              "responsive": true,
+              //"rowReorder": {
+              //  selector: 'td:nth-child(2)'
+              //},
           });
       });
       // languague display options
@@ -1059,6 +1078,112 @@
           };
 
         </script>
+
+      <!-- JS - presion atmosferica -->
+      <script type="text/javascript">
+
+      Plotly.d3.json('{% url 'wsn:api_graph_lab' %}', function(dat_fig){
+        //aux arrays
+        var x_data_node1 = [],
+            x_data_node2 = [],
+            x_data_node3 = [],
+            x_data_node4 = [];
+
+        var y_data_node1 = [],
+            y_data_node2 = [],
+            y_data_node3 = [],
+            y_data_node4 = [];
+
+        //asigno a las variables los datos de los nodos
+        for (i = 0; i < dat_fig.length; i++) {
+          if(dat_fig[i].filtro == "Nodo_1_Batería_Tensión")
+            x_data_node1.push(dat_fig[i].timestamp);
+            y_data_node1.push(dat_fig[i].data);
+          if(dat_fig[i].filtro == "Nodo_2_Batería_Tensión")
+            x_data_node2.push(dat_fig[i].timestamp);
+            y_data_node2.push(dat_fig[i].data);
+          if(dat_fig[i].filtro == "Nodo_3_Batería_Tensión")
+            x_data_node3.push(dat_fig[i].timestamp);
+            y_data_node3.push(dat_fig[i].data);
+          if(dat_fig[i].filtro == "Nodo_4_Batería_Tensión")
+            x_data_node4.push(dat_fig[i].timestamp);
+            y_data_node4.push(dat_fig[i].data);
+        }
+
+        if (x_data_node1[0] != null || x_data_node2[0] != null || x_data_node3[0] != null || x_data_node4[0] != null)  {
+          var node1_data = {
+              x: x_data_node1,
+              y: y_data_node1,
+              type: 'scatter',
+              line: {shape: 'spline'},
+              name: 'Nodo_1'
+          };
+          var node2_data = {
+              x: x_data_node2,
+              y: y_data_node2,
+              type: 'scatter',
+              line: {shape: 'spline'},
+              name: 'Nodo_2'
+          };
+          var node3_data = {
+              x: x_data_node3,
+              y: y_data_node3,
+              type: 'scatter',
+              line: {shape: 'spline'},
+              name: 'Nodo_3'
+          };
+          var node4_data = {
+              x: x_data_node4,
+              y: y_data_node4,
+              type: 'scatter',
+              line: {shape: 'spline'},
+              name: 'Nodo_4'
+          };
+
+            //seteo el tipo de variable del selector
+            var xField = 'Date';
+            var yField = 'Tensión';
+
+            //genero el selector para filtrar los datos (todos backward)
+            var selectorOptions = {
+                buttons: [{
+                    step: 'day',
+                    stepmode: 'backward',
+                    count: 1,
+                    label: 'Día'
+                }, {
+                    step: 'day',
+                    stepmode: 'backward',
+                    count: 7,
+                    label: 'Semana'
+                }, {
+                    step: 'all',
+                }],
+            };
+
+            //Creo una variable global de datos
+            var data = [node1_data,node2_data,node3_data,node4_data];
+
+            //Finalmente creo la grafica
+            var gr = Plotly.plot('bateria', data , {
+              xaxis: {title: 'Tiempo',
+                      rangeselector: selectorOptions,
+                      //rangeslider: {}
+                    },
+              yaxis: {title: 'Tensión (V)',
+                      type: 'log',
+                      fixedrange: true},
+              margin: {t: 20},
+              autosize: true,
+              });
+            } //endif
+          });
+
+        window.onresize = function() {
+          Plotly.Plots.resize(gr);
+        };
+
+      </script>
 
   </body>
   </html>

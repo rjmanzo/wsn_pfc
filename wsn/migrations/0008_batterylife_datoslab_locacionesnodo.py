@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
+import djgeojson.fields
 
 
 class Migration(migrations.Migration):
@@ -14,22 +15,23 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='BatteryLife',
             fields=[
-                ('dato_id', models.IntegerField(primary_key=True, serialize=False)),
+                ('dato_id', models.IntegerField(serialize=False, primary_key=True)),
                 ('nodo', models.TextField()),
-                ('red_id', models.IntegerField()),
+                ('wsn_id', models.IntegerField()),
+                ('wsn_descrip', models.CharField(max_length=300)),
                 ('data', models.FloatField()),
                 ('fecha_hora', models.DateTimeField()),
             ],
             options={
-                'managed': False,
                 'default_related_name': 'battery_life',
+                'managed': False,
                 'db_table': 'battery_life',
             },
         ),
         migrations.CreateModel(
             name='DatosLab',
             fields=[
-                ('dato_id', models.IntegerField(primary_key=True, serialize=False)),
+                ('dato_id', models.IntegerField(serialize=False, primary_key=True)),
                 ('filtro', models.TextField()),
                 ('nodo', models.CharField(max_length=300)),
                 ('rol', models.CharField(max_length=300)),
@@ -41,9 +43,23 @@ class Migration(migrations.Migration):
                 ('fecha_hora_text', models.TextField()),
             ],
             options={
-                'managed': False,
                 'default_related_name': 'datos_lab',
+                'managed': False,
                 'db_table': 'datos_lab',
+            },
+        ),
+        migrations.CreateModel(
+            name='LocacionesNodo',
+            fields=[
+                ('locacion_id', models.IntegerField(serialize=False, primary_key=True)),
+                ('locacion_descrip', models.TextField()),
+                ('wsn_descrip', models.CharField(max_length=300)),
+                ('geom', djgeojson.fields.PointField()),
+            ],
+            options={
+                'default_related_name': 'locaciones_nodos',
+                'managed': False,
+                'db_table': 'locaciones_nodos',
             },
         ),
     ]
