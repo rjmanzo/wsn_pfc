@@ -1,6 +1,5 @@
 from rest_framework import serializers
-#from rest_framework_gis.serializers import GeoFeatureModelSerializer, GeoModelSerializer
-from wsn.models import Nodo_red,Sensor,Dato,Configuracion, BatteryLife, DatosLab#, LocacionesNodo
+from wsn.models import Nodo_red,Sensor,Dato,Configuracion, BatteryLife, DatosLab
 
 """Comunicacion wsn"""
 class NodoRedSerializers(serializers.ModelSerializer):
@@ -40,13 +39,3 @@ class DatosTablaLabSerializers(serializers.ModelSerializer):
          model = DatosLab
          fields = ('filtro','data','timestamp')
          read_only_fields = ('filtro','data','timestamp')
-
-#"""Serializamos la vista de locaciones lab para poder utilizarla en el mapa"""
-#class LocacionesNodoSerializers(GeoFeatureModelSerializer):
-
-#    class Meta:
-#        model = LocacionesNodo
-#        """#Gis  field"""
-#        geo_field = 'geom'
-
-#        fields = ('locacion_id','locacion_descrip','wsn_descrip')

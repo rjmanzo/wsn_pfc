@@ -1,7 +1,8 @@
 from django.conf.urls import include, url
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.decorators import login_required
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required
+from braces.views import LoginRequiredMixin
 from rest_framework.generics import ListCreateAPIView, ListAPIView
 from wsn.serializers import ConfiguracionSerializers, DatoSerializers, DatosTablaLabSerializers #, LocacionesNodoSerializers
 from wsn.models import Dato, Configuracion, Locacion, BatteryLife, DatosLab, LocacionesNodo
@@ -19,7 +20,7 @@ def main_page(request):
 @login_required
 def lab_page(request):
     locaciones = LocacionesNodo.objects.all().filter(wsn_descrip='Prueba de Laboratorio') #locaciones lab
-    bat = BatteryLife.objects.all().filter(wsn_descrip='Prueba de Laboratorio', data__lte = 3.8) # tension de nodos lab / menores a 3.8 bateria baja (lte <=)
+    bat = BatteryLife.objects.all().filter(wsn_descrip='Prueba de Laboratorio', data__lte = 6) # tension de nodos lab / menores a 3.8 bateria baja (lte <=)
     return render(request, 'wsn/starter.html', {'locaciones':locaciones, 'bat':bat})
 
 @login_required
@@ -44,12 +45,16 @@ class ConfiguracionList(ListCreateAPIView):
     serializer_class = ConfiguracionSerializers
 
 """#Genero el Json para las graficas. Recordar que son las ultimas dos semanas"""
-class DatosTablaLabList(ListAPIView):
+"""
+LoginRequiredMixin herera todos los atributos del login seteados en el sistema. Es por esto,
+que no es necesario configurar ningun parametro 
+"""
+class DatosGraphLabList(LoginRequiredMixin, ListAPIView):
     queryset = DatosLab.objects.all()
     serializer_class = DatosTablaLabSerializers
 
 """#datatables Json generator"""
-class TablaLabsListJson(BaseDatatableView):
+class DatosTableLabList(LoginRequiredMixin, BaseDatatableView):
     model = DatosLab
     columns = ['nodo', 'rol', 'tipo_sensor', 'sensor', 'data','fecha_hora_text']
     order_columns = ['nodo', 'rol', 'tipo_sensor', 'sensor', 'data', 'fecha_hora_text']

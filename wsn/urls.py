@@ -5,45 +5,13 @@ from . import views
 app_name = 'wsn'
 
 urlpatterns = [
-    url(
-        regex='^$',
-        view= views.main_page,
-        name= 'starter'
-    ),
-    url(
-        regex='^wsn/lab-test/$',
-        view= views.lab_page,
-        name= 'lab'
-    ),
-    url(
-        regex='^wsn/campo-test-uno/$',
-        view= views.campo_uno_page,
-        name= 'campo_uno'
-    ),
-    url(
-        regex='^wsn/campo-test-dos/$',
-        view= views.campo_dos_page,
-        name= 'campo_dos'
-    ),
-    url(
-        regex='^api-reg/$',
-        view= views.DatoList.as_view(),
-        name= 'api_reg'
-    ),
-    url(
-        regex='^api-config/$',
-        view= views.ConfiguracionList.as_view(),
-        name= 'api_config'
-    ),
-    url(
-        regex='^api-graph-lab/$',
-        view= views.DatosTablaLabList.as_view(),
-        name= 'api_graph_lab'
-    ),
-    url(
-        regex='^api-table-lab/$',
-        view = views.TablaLabsListJson.as_view(),
-        name='tabla_lab_list_json'
-    ),
-    #url(r'^locaciones.json$', views.LocacionesLayer.as_view(properties=('locacion_descrip','wsn_descrip')), name='locaciones_nodos'),
+    url(r'^$', views.main_page, name='starter'),
+    url(r'^wsn/lab-test/$', views.lab_page, name='lab'),
+    url(r'^wsn/campo-test-uno/$', views.campo_uno_page, name='campo_uno'),
+    url(r'^wsn/campo-test-dos/$', views.campo_dos_page, name='campo_dos'),
+    url(r'^api-reg/$', views.DatoList.as_view(), name='api_reg'),
+    url(r'^api-config/$', views.ConfiguracionList.as_view(), name='api_config'),
+    url(r'^api-graph-lab/$', views.DatosGraphLabList.as_view(), name='api_graph_lab'),
+    url(r'^api-table-lab/$', views.DatosTableLabList.as_view(), name='api_table_lab'),
+    
 ]

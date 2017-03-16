@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'leaflet',
     'corsheaders',
     'django_datatables_view',
+    'braces',
     'wsn',
 ]
 
@@ -152,11 +153,15 @@ LOGIN_URL = '/wsn/login/'
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
-        'rest_framework.renderers.BrowsableAPIRenderer',
+        #'rest_framework.renderers.BrowsableAPIRenderer',
     ),
-    #'DEFAULT_PARSER_CLASSES': (
-    #        'rest_framework.parsers.JSONParser',
-    #)
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    )
 }
 
 #leaflet django settings (solo para el Adminsite. Para el template lo generamos a pata)

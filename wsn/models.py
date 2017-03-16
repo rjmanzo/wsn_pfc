@@ -7,8 +7,28 @@ from django_pgviews import view as pg
 para guardar las configuraciones de la aplicación """
 
 class Configuracion(models.Model):
+    QUINCE = 1
+    MEDIA = 2
+    CUARENTAYCINCO = 3
+    UNAHORA = 4
+    DOSHORAS = 5
+    CUATROHORAS = 6
+    SEISHORAS = 7
+    DOCEHORAS = 8
+    UNDIA = 9
+    TIEMPOS = (
+        (QUINCE, '15 MIN'),
+        (MEDIA, '30 MIN'),
+        (CUARENTAYCINCO, '45 MIN'),
+        (UNAHORA, 'UNA HORA (60 MIN)'),
+        (DOSHORAS, 'DOS HORAS (120 MIN)'),
+        (CUATROHORAS, 'CUATRO HORAS (240 MIN)'),
+        (SEISHORAS, 'SEIS HORAS (360 MIN)'),
+        (DOCEHORAS, 'DOCE HORAS (720 MIN)'),
+        (UNDIA, 'DIA (24 HRS)'),
+    )
     config_descrip = models.CharField(max_length=300)
-    tiempo = models.IntegerField(default=15)
+    tiempo = models.IntegerField(choices = TIEMPOS , default = QUINCE)
 
     def __str__(self):
         return self.config_descrip
