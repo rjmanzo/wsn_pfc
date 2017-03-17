@@ -153,7 +153,7 @@ LOGIN_URL = '/wsn/login/'
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
-        #'rest_framework.renderers.BrowsableAPIRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.BasicAuthentication',
@@ -161,6 +161,8 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
+        """Poniendo como requisito esta bandera y
+        las declaradas en DEFAULT_AUTHENTICATION_CLASSES basta para bloquear. Usar user y pass Django"""
     )
 }
 

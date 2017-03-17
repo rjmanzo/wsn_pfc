@@ -2,9 +2,10 @@ from django.conf.urls import include, url
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
-from braces.views import LoginRequiredMixin
+from braces.views import LoginRequiredMixin, PermissionRequiredMixin
 from rest_framework.generics import ListCreateAPIView, ListAPIView
-from wsn.serializers import ConfiguracionSerializers, DatoSerializers, DatosTablaLabSerializers #, LocacionesNodoSerializers
+from rest_framework.renderers import JSONRenderer
+from wsn.serializers import ConfiguracionSerializers, DatoSerializers, DatosTablaLabSerializers
 from wsn.models import Dato, Configuracion, Locacion, BatteryLife, DatosLab, LocacionesNodo
 from django_datatables_view.base_datatable_view import BaseDatatableView
 
@@ -47,9 +48,10 @@ class ConfiguracionList(ListCreateAPIView):
 """#Genero el Json para las graficas. Recordar que son las ultimas dos semanas"""
 """
 LoginRequiredMixin herera todos los atributos del login seteados en el sistema. Es por esto,
-que no es necesario configurar ningun parametro 
+que no es necesario configurar ningun parametro
 """
 class DatosGraphLabList(LoginRequiredMixin, ListAPIView):
+    renderer_classes = (JSONRenderer, )
     queryset = DatosLab.objects.all()
     serializer_class = DatosTablaLabSerializers
 
