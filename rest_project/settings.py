@@ -148,8 +148,12 @@ LOGIN_URL = '/wsn/login/'
 #LOGOUT_REDIRECT_URL = '/wsn/login'
 
 # Por defecto, sin poner estas lineas se carga estos dos renderizadores.
-# Si solo queremos mostrar dejamos el JSONRenderer y listo, mostramos los datos.
-# Tmb se puede cargar por defecto el parser
+# x) Si solo queremos mostrar dejamos el JSONRenderer y listo, mostramos los datos.
+# x) Tmb se puede cargar por defecto el parser
+
+# x) Poniendo como requisito esta bandera y las declaradas en
+#   DEFAULT_AUTHENTICATION_CLASSES basta para bloquear. Usar user y pass Django
+
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
@@ -161,10 +165,9 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
-        """Poniendo como requisito esta bandera y
-        las declaradas en DEFAULT_AUTHENTICATION_CLASSES basta para bloquear. Usar user y pass Django"""
     )
 }
+
 
 #leaflet django settings (solo para el Adminsite. Para el template lo generamos a pata)
 LEAFLET_CONFIG = {
