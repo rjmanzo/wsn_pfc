@@ -34,7 +34,8 @@ def campo_uno_page(request):
 def campo_dos_page(request):
     locaciones = LocacionesNodo.objects.all().filter(wsn_descrip='Prueba de campo Nro. 2')
     bat = BatteryLife.objects.all().filter(wsn_descrip='Prueba de campo Nro. 2', data__lte = 3.8) # tension de nodos lab / menores a 3.8 bateria baja (lte <=)
-    return render(request, 'wsn/starter.html', {'locaciones':locaciones, 'bat':bat})
+    #return render(request, 'wsn/starter.html', {'locaciones':locaciones, 'bat':bat})
+    return render(request, 'wsn/en_construccion.html', {})
 
 """#REST views--------------------------"""
 class DatoList(ListCreateAPIView):

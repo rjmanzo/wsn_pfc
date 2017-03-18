@@ -645,17 +645,9 @@
         }
       });
 
-    $(window).resize(function() {
-     var divheight = $("#temperatura_1").height();
-     var divwidth = $("#temperatura_1").width();
-
-     var update = {
-              width:divwidth,  // or any new width
-              height:divheight // " "
-            };
-
-    Plotly.relayout('temperatura_1', update);
-            }).resize();
+    window.onresize = function() {
+      Plotly.Plots.resize(gr);
+    };
 
   </script>
   <!-- JS - Temperatura_2 -->
@@ -760,17 +752,9 @@
         }
     });
 
-    $(window).resize(function() {
-     var divheight = $("#temperatura_2").height();
-     var divwidth = $("#temperatura_2").width();
-
-     var update = {
-              width:divwidth,  // or any new width
-              height:divheight // " "
-            };
-
-    Plotly.relayout('temperatura_2', update);
-            }).resize();
+    window.onresize = function() {
+      Plotly.Plots.resize(gr);
+    };
 
   </script>
   <!-- JS - Humedad -->
@@ -861,7 +845,7 @@
         var data = [node1_data,node2_data,node3_data,node4_data];
 
         //Finalmente creo la grafica
-        Plotly.plot('humedad', data , {
+        var gr = Plotly.plot('humedad', data , {
           title:'DHT22',
           xaxis: {title: 'Tiempo',
                   rangeselector: selectorOptions,
@@ -872,26 +856,13 @@
                   fixedrange: true},
           margin: {t: 20},
           autosize: true,
-          font: {size: 14},
           });
         } //endif
     });
 
-    //window.onresize = function() {
-    //  Plotly.Plots.resize('humedad');
-    //};
-
-    $(window).resize(function() {
-     var divheight = $("#humedad").height();
-     var divwidth = $("#humedad").width();
-
-     var update = {
-              width:divwidth,  // or any new width
-              height:divheight // " "
-            };
-
-    Plotly.relayout('humedad', update);
-        }).resize();
+    window.onresize = function() {
+      Plotly.Plots.resize(gr);
+    };
 
     </script>
     <!-- JS - presion atmosferica -->
@@ -991,22 +962,13 @@
                     fixedrange: true},
             margin: {t: 20},
             autosize: true,
-            font: {size: 14},
             });
           } //endif
         });
 
-        $(window).resize(function() {
-         var divheight = $("#presion").height();
-         var divwidth = $("#presion").width();
-
-         var update = {
-                  width:divwidth,  // or any new width
-                  height:divheight // " "
-                };
-
-        Plotly.relayout('presion', update);
-                }).resize();
+      window.onresize = function() {
+        Plotly.Plots.resize(gr);
+      };
 
     </script>
 
@@ -1106,24 +1068,13 @@
                         fixedrange: true},
                 margin: {t: 20},
                 autosize: true,
-                font: {size: 14},
                 });
               } //endif
             });
 
-            $(window).resize(function() {
-             var divheight = $("#freatico").height();
-             var divwidth = $("#freatico").width();
-
-             var update = {
-                      width:divwidth,  // or any new width
-                      height:divheight // " "
-                    };
-
-            Plotly.relayout('freatico', update);
-
-                }).resize();
-
+          window.onresize = function() {
+            Plotly.Plots.resize(gr);
+          };
 
         </script>
 
@@ -1222,23 +1173,14 @@
                       type: 'log',
                       fixedrange: true},
               margin: {t: 20},
-              font: {size: 14},
-              } );
+              autosize: true,
+              });
             } //endif
           });
 
-        $(window).resize(function() {
-         var divheight = $("#bateria").height();
-         var divwidth = $("#bateria").width();
-
-         var update = {
-                  width:divwidth,  // or any new width
-                  height:divheight // " "
-                };
-
-        Plotly.relayout('bateria', update);
-
-            }).resize();
+        window.onresize = function() {
+          Plotly.Plots.resize(gr);
+        };
 
       </script>
 
