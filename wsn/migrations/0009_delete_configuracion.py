@@ -11,9 +11,7 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterField(
-            model_name='configuracion',
-            name='tiempo',
-            field=models.IntegerField(choices=[(0, '0'), (15, '15'), (45, '45')], default=15),
+        migrations.DeleteModel(
+            name='Configuracion',
         ),
     ]

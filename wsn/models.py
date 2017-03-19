@@ -3,41 +3,6 @@ from django.contrib.auth.models import User
 from djgeojson.fields import PointField
 from django_pgviews import view as pg
 
-""" Esta pequeña tabla es agegada al modelo
-para guardar las configuraciones de la aplicación """
-
-class Configuracion(models.Model):
-    QUINCE = 1
-    MEDIA = 2
-    CUARENTAYCINCO = 3
-    UNAHORA = 4
-    DOSHORAS = 5
-    CUATROHORAS = 6
-    SEISHORAS = 7
-    DOCEHORAS = 8
-    UNDIA = 9
-    TIEMPOS = (
-        (QUINCE, '15 MIN'),
-        (MEDIA, '30 MIN'),
-        (CUARENTAYCINCO, '45 MIN'),
-        (UNAHORA, 'UNA HORA (60 MIN)'),
-        (DOSHORAS, 'DOS HORAS (120 MIN)'),
-        (CUATROHORAS, 'CUATRO HORAS (240 MIN)'),
-        (SEISHORAS, 'SEIS HORAS (360 MIN)'),
-        (DOCEHORAS, 'DOCE HORAS (720 MIN)'),
-        (UNDIA, 'DIA (24 HRS)'),
-    )
-    config_descrip = models.CharField(max_length=300)
-    tiempo = models.IntegerField(choices = TIEMPOS , default = QUINCE)
-
-    def __str__(self):
-        return self.config_descrip
-
-    class Meta:
-        db_table = 'config_wsn'
-        default_related_name = 'config_wsn'
-
-
 class Wsn(models.Model):
     id = models.AutoField(primary_key=True, db_column='wsn_id')
     wsn_descrip = models.CharField(max_length=300)
@@ -124,7 +89,7 @@ class Nodo_red(models.Model):
     fecha_hasta = models.DateField(blank=True, null=True)
 
     def __str__(self):
-        return self.nod_id.nod_descrip + ' - '+ self.locacion_id.locacion_descrip +' (' + self.rol_id.rol_descrip + ')'  #muestro la descripcion del nodo
+        return self.nod_id.nod_descrip + ' - '+ self.locacion_id.locacion_descrip +' (' + self.rol_id.rol_descrip +  ')'  #muestro la descripcion del nodo
     class Meta:
         db_table = 'nodo_red'
         default_related_name = 'nodo_red'
@@ -143,6 +108,46 @@ class Dato(models.Model):
     class Meta:
         db_table = 'dato'
         default_related_name = 'dato'
+
+""" En esta tabla se guardan las configuraciones
+de los distintos nodos de la red """
+
+class Configuracion_wsn(models.Model):
+    OFF = -1
+    QUINCE = 1
+    MEDIA = 2
+    CUARENTAYCINCO = 3
+    UNAHORA = 4
+    DOSHORAS = 5
+    CUATROHORAS = 6
+    SEISHORAS = 7
+    DOCEHORAS = 8
+    UNDIA = 9
+    TIEMPOS = (
+        (OFF, 'APAGADO'),
+        (QUINCE, '15 MIN'),
+        (MEDIA, '30 MIN'),
+        (CUARENTAYCINCO, '45 MIN'),
+        (UNAHORA, 'UNA HORA (60 MIN)'),
+        (DOSHORAS, 'DOS HORAS (120 MIN)'),
+        (CUATROHORAS, 'CUATRO HORAS (240 MIN)'),
+        (SEISHORAS, 'SEIS HORAS (360 MIN)'),
+        (DOCEHORAS, 'DOCE HORAS (720 MIN)'),
+        (UNDIA, 'DIA (24 HRS)'),
+    )
+
+    id = models.AutoField(primary_key=True, db_column='config_id')
+    tiempo = models.IntegerField(choices = TIEMPOS , default = QUINCE)
+    nod_red_id = models.ForeignKey(Nodo_red, db_column='nod_red_id', null=True)
+    sen_id = models.ForeignKey(Sensor, db_column='sen_id',null=True)
+    config_descrip = models.CharField(max_length=300, blank=True)
+
+    def __str__(self):
+        return self.nod_red_id.nod_id.nod_descrip + ' (' + self.nod_red_id.wsn_id.wsn_descrip + ') - ' + self.sen_id.sen_descrip + ' (' + self.sen_id.type_sen_id.type_sen_descrip + ')'
+
+    class Meta:
+        db_table = 'configuracion_wsn'
+        default_related_name = 'configuracion_wsn'
 
 """
 modelos construidos en base a vistas Postgre ---------------------------------------

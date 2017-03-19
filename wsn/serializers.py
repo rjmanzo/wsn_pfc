@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from wsn.models import Nodo_red,Sensor,Dato,Configuracion, BatteryLife, DatosLab
+from wsn.models import Nodo_red,Sensor,Dato,Configuracion_wsn, BatteryLife, DatosLab
 
 """Comunicacion wsn"""
 class NodoRedSerializers(serializers.ModelSerializer):
@@ -26,9 +26,10 @@ class DatoSerializers(serializers.ModelSerializer):
 """test numero uno. PERFECTOOOO.... ANDA EL HDP!!!"""
 class ConfiguracionSerializers(serializers.ModelSerializer):
    class Meta:
-       model = Configuracion
+       model = Configuracion_wsn
        fields = ('id', 'tiempo')
        """fields = ('id', 'config_descrip','tiempo')"""
+
 
 """Serializamos la vista de datos para poder utilizarla en las gráficas"""
 class DatosTablaLabSerializers(serializers.ModelSerializer):

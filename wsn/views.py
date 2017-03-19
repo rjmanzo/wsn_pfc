@@ -6,7 +6,7 @@ from braces.views import LoginRequiredMixin, PermissionRequiredMixin
 from rest_framework.generics import ListCreateAPIView, ListAPIView
 from rest_framework.renderers import JSONRenderer
 from wsn.serializers import ConfiguracionSerializers, DatoSerializers, DatosTablaLabSerializers
-from wsn.models import Dato, Configuracion, Locacion, BatteryLife, DatosLab, LocacionesNodo
+from wsn.models import Dato, Locacion, BatteryLife, DatosLab, LocacionesNodo,Configuracion_wsn
 from django_datatables_view.base_datatable_view import BaseDatatableView
 
 """#App Principal"""
@@ -43,7 +43,7 @@ class DatoList(ListCreateAPIView):
     serializer_class = DatoSerializers
 
 class ConfiguracionList(ListCreateAPIView):
-    queryset = Configuracion.objects.all()
+    queryset = Configuracion_wsn.objects.all()
     serializer_class = ConfiguracionSerializers
 
 """#Genero el Json para las graficas. Recordar que son las ultimas dos semanas"""
