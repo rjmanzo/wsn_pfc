@@ -21,12 +21,13 @@
     <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="{% static "css/skin-green-light.min.css" %}">
     <!-- datatables style -->
-    <link rel="stylesheet" href="http://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
+    <!-- <link rel="stylesheet" href="http://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css"> -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/dataTables.bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.2.0/css/rowReorder.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.2.4/css/buttons.dataTables.min.css">
     <!-- Boostrap style -->
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.2.4/css/buttons.dataTables.min.css">
     <!-- leaflet style -->
 	  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css">
 	  <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
@@ -293,41 +294,41 @@
             <div class="box-body">
                <div id="bateria" width="100%" cellspacing="0"><!-- Plotly chart will be drawn inside this DIV --></div>
             </div>
+        </div>
+        <!-- Tabla de datos del sistema -->
+         <div class="box box-warning">
+          <div class="box-header">
+            <h3 class="box-title">Tabla de datos</h3>
           </div>
-          <!-- Tabla de datos del sistema -->
-           <div class="box box-warning">
-            <div class="box-header">
-              <h3 class="box-title">Tabla de datos</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <table id="DataTable" class="table table-bordered table-striped responsive display no-wrap" width="100%" cellspacing="0">
-                <thead>
-                <tr>
+          <!-- /.box-header -->
+           <div class="box-body">
+            <table id="DataTable" class="table table-bordered table-striped responsive display no-wrap" width="100%" cellspacing="0">
+              <thead>
+              <tr>
                   <th>Nodo</th>
                   <th>Rol</th>
                   <th>Tipo_sensor</th>
                   <th>Sensor</th>
                   <th>Dato</th>
                   <th>Marca de tiempo</th>
-                </tr>
-                </thead>
-                <!-- <tbody> </tbody> -->
-                <tfoot>
-                <tr>
+              </tr>
+              </thead>
+              <!-- <tbody> </tbody> -->
+              <tfoot>
+              <tr>
                   <th>Nodo</th>
                   <th>Rol</th>
                   <th>Tipo_sensor</th>
                   <th>Sensor</th>
                   <th>Dato</th>
                   <th>Marca de tiempo</th>
-                </tr>
-                </tfoot>
-              </table>
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
+              </tr>
+              </tfoot>
+            </table>
+           </div>
+          <!-- /.box-body -->
+         </div>
+        <!-- /.box -->
         <!-- grafica de temperatura global -->
         <div class="box box-info">
           <div class="box-header with-border">
@@ -385,7 +386,6 @@
                 </div>
               </div>
     <!-- /.content -->
-  </div>
         <!-- /.box -->
     </section>
     <!-- /.content -->
@@ -486,8 +486,10 @@
   <!-- AdminLTE App -->
   <script src="{% static "js/app.min.js" %}"></script>
   <!-- dataTables Js -->
-  <script src="{% static "js/dataTables.bootstrap.min.js" %}"></script>
-  <script src="{% static "js/jquery.dataTables.min.js" %}"></script>
+  <!-- <script src="{% static "js/dataTables.bootstrap.min.js" %}"></script>
+  <script src="{% static "js/jquery.dataTables.min.js" %}"></script> -->
+  <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
   <script src="https://cdn.datatables.net/rowreorder/1.2.0/js/dataTables.rowReorder.min.js"></script>
   <script src="https://cdn.datatables.net/responsive/2.1.1/js/dataTables.responsive.min.js "></script>
   <script src="https://cdn.datatables.net/buttons/1.2.4/js/dataTables.buttons.min.js"></script>
@@ -508,10 +510,8 @@
         var table = $('#DataTable').DataTable({
               "language": language_d,  // global variable defined in html
               "ordering": [[1 , "asc" ]],
-              "dom": 'lBfrtip',
-                  buttons: [
-                  'csv','pdf'
-              ],
+              "dom": '<"floaRight"B><"clear">rlftip',
+                  buttons: ['csvHtml5','pdfHtml5'],
               "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, 'All']],
               "searching": true,
               "processing": true,
@@ -519,9 +519,6 @@
               "stateSave": true,
               "legacyAjax": true,
               "ajax": TABLA_LIST_JSON_URL,
-              //rowReorder: {
-              //  selector: 'td:first-child'
-              //},
               responsive: true,
           });
       });
