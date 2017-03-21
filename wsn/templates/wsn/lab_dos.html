@@ -188,10 +188,35 @@
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu">
         <li class="header"><font size="2.5"> Menu </font></li>
-        <!-- Optionally, you can add icons to the links -->
-        <li class="active"><a href="{%url 'wsn:lab' %}"><i class="fa fa-dashboard"></i><span>Pruebas de Laboratorio</span></a></li>
-        <li><a href="{%url 'wsn:campo_uno' %}"><i class="fa fa-bar-chart"></i> <span>Pruebas de Campo N° 1</span></a></li>
-        <li><a href="{%url 'wsn:campo_dos' %}"><i class="fa fa-pie-chart"></i> <span>Pruebas de Campo N° 2</span></a></li>
+        <!--Lab test-->
+        <li class="treeview active">
+          <a>
+            <i class="fa fa-bar-chart"></i>
+            <span>Pruebas de Laboratorio</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{%url 'wsn:lab_uno' %}"><i class="fa fa-circle-o"></i> <span>Test N° 1</span></a></li>
+            <li><a href="{%url 'wsn:lab_dos' %}"><i class="fa fa-circle-o"></i> <span>Test N° 2</span></a></li>
+          </ul>
+        </li>
+        <!--Field test-->
+        <li class="treeview">
+          <a>
+            <i class="fa fa-bar-chart"></i>
+            <span>Pruebas de Campo</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{%url 'wsn:campo_uno' %}"><i class="fa fa-circle-o"></i> <span>Test N° 1</span></a></li>
+            <li><a href="{%url 'wsn:campo_dos' %}"><i class="fa fa-circle-o"></i> <span>Test N° 2</span></a></li>
+          </ul>
+        </li>
+        <!--Admin site-->
         <li><a href="{% url 'admin:index' %}"><i class="fa fa-edit"></i> <span>Administración</span></a></li>
       </ul>
       <!-- /.sidebar-menu -->
@@ -205,7 +230,7 @@
     <section class="content-header">
       <h1>
         PFC
-        <small>Prueba de laboratorio Nro. 1</small>
+        <small>Prueba de laboratorio Nro. 2</small>
       </h1>
     </section>
     <!-- Main content -->
@@ -504,7 +529,7 @@
   <!-- datatables Js -->
   <script type="text/javascript">
       //Ajax url path
-      var TABLA_LIST_JSON_URL = "{% url 'wsn:api_table_lab' %}";
+      var TABLA_LIST_JSON_URL = "{% url 'wsn:api_table_lab_dos' %}";
       //Configuraciones datatable
       $(document).ready(function() {
         var table = $('#DataTable').DataTable({
@@ -546,7 +571,7 @@
   <!-- JS - Temperatura_1 -->
   <script type="text/javascript">
 
-  Plotly.d3.json('{% url 'wsn:api_graph_lab' %}', function(dat_fig){
+  Plotly.d3.json('{% url 'wsn:api_graph_lab_dos' %}', function(dat_fig){
     //aux arrays
     var x_data_node1 = [],
         x_data_node2 = [],
@@ -661,7 +686,7 @@
   <!-- JS - Temperatura_2 -->
   <script type="text/javascript">
 
-  Plotly.d3.json('{% url 'wsn:api_graph_lab' %}', function(dat_fig){
+  Plotly.d3.json('{% url 'wsn:api_graph_lab_dos' %}', function(dat_fig){
     //aux arrays
     var x_data_node1 = [],
         x_data_node2 = [],
@@ -776,7 +801,7 @@
   <!-- JS - Humedad -->
     <script type="text/javascript">
 
-    Plotly.d3.json('{% url 'wsn:api_graph_lab' %}', function(dat_fig){
+    Plotly.d3.json('{% url 'wsn:api_graph_lab_dos' %}', function(dat_fig){
       //aux arrays
       var x_data_node1 = [],
           x_data_node2 = [],
@@ -897,7 +922,7 @@
     <!-- JS - presion atmosferica -->
     <script type="text/javascript">
 
-    Plotly.d3.json('{% url 'wsn:api_graph_lab' %}', function(dat_fig){
+    Plotly.d3.json('{% url 'wsn:api_graph_lab_dos' %}', function(dat_fig){
       //aux arrays
       var x_data_node1 = [],
           x_data_node2 = [],
@@ -1012,7 +1037,7 @@
 
         <script type="text/javascript">
 
-        Plotly.d3.json('{% url 'wsn:api_graph_lab' %}', function(dat_fig){
+        Plotly.d3.json('{% url 'wsn:api_graph_lab_dos' %}', function(dat_fig){
           //aux arrays
           var x_data_node1 = [],
               x_data_node2 = [],
@@ -1130,7 +1155,7 @@
       <!-- JS - presion atmosferica -->
       <script type="text/javascript">
 
-      Plotly.d3.json('{% url 'wsn:api_graph_lab' %}', function(dat_fig){
+      Plotly.d3.json('{% url 'wsn:api_graph_lab_dos' %}', function(dat_fig){
         //aux arrays
         var x_data_node1 = [],
             x_data_node2 = [],

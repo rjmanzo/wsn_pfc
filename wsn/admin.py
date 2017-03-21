@@ -2,7 +2,8 @@ from django.contrib import admin
 from wsn.models import (
     Nodo,Nodo_red,Dato,Sensor,
     Rol,Tipo_sensor,Wsn,Locacion,
-    BatteryLife,DatosLab,LocacionesNodo,Configuracion_wsn
+    BatteryLife,DatosLabUno,LocacionesNodo,Configuracion_wsn#,
+    #DatosLabDos,DatosCampoUno,DatosCampoDos
 )
 from leaflet.admin import LeafletGeoAdmin
 
@@ -20,6 +21,9 @@ admin.site.register(Configuracion_wsn)
 admin.site.register(Locacion, LeafletGeoAdmin)
 
 """#Vistas"""
-admin.site.register(BatteryLife)
-admin.site.register(DatosLab)
 admin.site.register(LocacionesNodo, LeafletGeoAdmin)
+admin.site.register(BatteryLife)
+admin.site.register(DatosLabUno)
+#admin.site.register(DatosLabDos)
+#admin.site.register(DatosCampoUno)
+#admin.site.register(DatosCampoDos)

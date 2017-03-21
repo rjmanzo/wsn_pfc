@@ -198,8 +198,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{%url 'wsn:lab' %}"><i class="fa fa-circle-o"></i> <span>Test N° 1</span></a></li>
-            <li><a href="{%url 'wsn:lab' %}"><i class="fa fa-circle-o"></i> <span>Test N° 2</span></a></li>
+            <li><a href="{%url 'wsn:lab_uno' %}"><i class="fa fa-circle-o"></i> <span>Test N° 1</span></a></li>
+            <li><a href="{%url 'wsn:lab_dos' %}"><i class="fa fa-circle-o"></i> <span>Test N° 2</span></a></li>
           </ul>
         </li>
         <!--Field test-->
@@ -230,7 +230,7 @@
     <section class="content-header">
       <h1>
         PFC
-        <small>Prueba de Campo Nro. 1</small>
+        <small>Prueba de laboratorio Nro. 1</small>
       </h1>
     </section>
     <!-- Main content -->
@@ -529,7 +529,7 @@
   <!-- datatables Js -->
   <script type="text/javascript">
       //Ajax url path
-      var TABLA_LIST_JSON_URL = "{% url 'wsn:api_table_campo_uno' %}";
+      var TABLA_LIST_JSON_URL = "{% url 'wsn:api_table_lab_uno' %}";
       //Configuraciones datatable
       $(document).ready(function() {
         var table = $('#DataTable').DataTable({
@@ -571,7 +571,7 @@
   <!-- JS - Temperatura_1 -->
   <script type="text/javascript">
 
-  Plotly.d3.json('{% url 'wsn:api_graph_campo_uno' %}', function(dat_fig){
+  Plotly.d3.json('{% url 'wsn:api_graph_lab_uno' %}', function(dat_fig){
     //aux arrays
     var x_data_node1 = [],
         x_data_node2 = [],
@@ -686,7 +686,7 @@
   <!-- JS - Temperatura_2 -->
   <script type="text/javascript">
 
-  Plotly.d3.json('{% url 'wsn:api_graph_campo_uno' %}', function(dat_fig){
+  Plotly.d3.json('{% url 'wsn:api_graph_lab_uno' %}', function(dat_fig){
     //aux arrays
     var x_data_node1 = [],
         x_data_node2 = [],
@@ -801,7 +801,7 @@
   <!-- JS - Humedad -->
     <script type="text/javascript">
 
-    Plotly.d3.json('{% url 'wsn:api_graph_campo_uno' %}', function(dat_fig){
+    Plotly.d3.json('{% url 'wsn:api_graph_lab_uno' %}', function(dat_fig){
       //aux arrays
       var x_data_node1 = [],
           x_data_node2 = [],
@@ -922,7 +922,7 @@
     <!-- JS - presion atmosferica -->
     <script type="text/javascript">
 
-    Plotly.d3.json('{% url 'wsn:api_graph_campo_uno' %}', function(dat_fig){
+    Plotly.d3.json('{% url 'wsn:api_graph_lab_uno' %}', function(dat_fig){
       //aux arrays
       var x_data_node1 = [],
           x_data_node2 = [],
@@ -1035,9 +1035,10 @@
 
     </script>
 
+    <!-- Js Nivel freatico -->
         <script type="text/javascript">
 
-        Plotly.d3.json('{% url 'wsn:api_graph_campo_uno' %}', function(dat_fig){
+        Plotly.d3.json('{% url 'wsn:api_graph_lab_uno' %}', function(dat_fig){
           //aux arrays
           var x_data_node1 = [],
               x_data_node2 = [],
@@ -1152,10 +1153,10 @@
 
         </script>
 
-      <!-- JS - presion atmosferica -->
+      <!-- JS - Bateria -->
       <script type="text/javascript">
 
-      Plotly.d3.json('{% url 'wsn:api_graph_campo_uno' %}', function(dat_fig){
+      Plotly.d3.json('{% url 'wsn:api_graph_lab_uno' %}', function(dat_fig){
         //aux arrays
         var x_data_node1 = [],
             x_data_node2 = [],

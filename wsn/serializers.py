@@ -1,18 +1,18 @@
 from rest_framework import serializers
-from wsn.models import Nodo_red,Sensor,Dato,Configuracion_wsn, BatteryLife, DatosLab
+from wsn.models import Nodo_red,Sensor,Dato,Configuracion_wsn, BatteryLife, DatosLabUno
 
 """Comunicacion wsn"""
 class NodoRedSerializers(serializers.ModelSerializer):
    class Meta:
        model = Nodo_red
-       """fields = ('id','nod_red_descrip')"""
        fields = '__all__'
+       #fields = ('id','nod_red_descrip')
 
 class SensorSerializers(serializers.ModelSerializer):
     class Meta:
         model = Sensor
-        fields = ('id','sen_descrip')
-        """fields = '__all__'"""
+        fields = '__all__'
+        #fields = ('id','sen_descrip')
 
 class DatoSerializers(serializers.ModelSerializer):
     #nod_red_id = NodoRedSerializers()
@@ -23,20 +23,20 @@ class DatoSerializers(serializers.ModelSerializer):
         fields = '__all__'
         #fields = ('id','data','nod_red_id','sen_id', 'fechahora')
 
-"""test numero uno. PERFECTOOOO.... ANDA EL HDP!!!"""
+"""Configuracion_wsn"""
 class ConfiguracionSerializers(serializers.ModelSerializer):
    class Meta:
        model = Configuracion_wsn
-       fields = ('id', 'tiempo')
-       """fields = ('id', 'config_descrip','tiempo')"""
+       fields = '__all__'
+       #fields = ('id', 'config_descrip','tiempo')
 
 
 """Serializamos la vista de datos para poder utilizarla en las gráficas"""
-class DatosTablaLabSerializers(serializers.ModelSerializer):
+class DatosTablaLabUnoSerializers(serializers.ModelSerializer):
     """cambio el formato del timestamp para poder usarlo en las graficas (Python format type)"""
     timestamp = serializers.DateTimeField(source='fecha_hora', format="%Y-%m-%d %H:%M:%S")
 
     class Meta:
-         model = DatosLab
+         model = DatosLabUno
          fields = ('filtro','data','timestamp')
          read_only_fields = ('filtro','data','timestamp')

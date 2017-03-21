@@ -11,7 +11,7 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.6 -->
-    <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
+    <!-- <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}"> -->
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
     <!-- Ionicons -->
@@ -21,12 +21,13 @@
     <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="{% static "css/skin-green-light.min.css" %}">
     <!-- datatables style -->
-    <link rel="stylesheet" href="http://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
+    <!-- <link rel="stylesheet" href="http://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css"> -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/dataTables.bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.2.0/css/rowReorder.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.2.4/css/buttons.dataTables.min.css">
     <!-- Boostrap style -->
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.2.4/css/buttons.dataTables.min.css">
     <!-- leaflet style -->
 	  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css">
 	  <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
@@ -187,10 +188,35 @@
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu">
         <li class="header"><font size="2.5"> Menu </font></li>
-        <!-- Optionally, you can add icons to the links -->
-        <li class="active"><a href="{%url 'wsn:lab' %}"><i class="fa fa-dashboard"></i><span>Pruebas de Laboratorio</span></a></li>
-        <li><a href="{%url 'wsn:campo_uno' %}"><i class="fa fa-bar-chart"></i> <span>Pruebas de Campo N° 1</span></a></li>
-        <li><a href="{%url 'wsn:campo_dos' %}"><i class="fa fa-pie-chart"></i> <span>Pruebas de Campo N° 2</span></a></li>
+        <!--Lab test-->
+        <li class="treeview active">
+          <a>
+            <i class="fa fa-bar-chart"></i>
+            <span>Pruebas de Laboratorio</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{%url 'wsn:lab' %}"><i class="fa fa-circle-o"></i> <span>Test N° 1</span></a></li>
+            <li><a href="{%url 'wsn:lab' %}"><i class="fa fa-circle-o"></i> <span>Test N° 2</span></a></li>
+          </ul>
+        </li>
+        <!--Field test-->
+        <li class="treeview">
+          <a>
+            <i class="fa fa-bar-chart"></i>
+            <span>Pruebas de Campo</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{%url 'wsn:campo_uno' %}"><i class="fa fa-circle-o"></i> <span>Test N° 1</span></a></li>
+            <li><a href="{%url 'wsn:campo_dos' %}"><i class="fa fa-circle-o"></i> <span>Test N° 2</span></a></li>
+          </ul>
+        </li>
+        <!--Admin site-->
         <li><a href="{% url 'admin:index' %}"><i class="fa fa-edit"></i> <span>Administración</span></a></li>
       </ul>
       <!-- /.sidebar-menu -->
@@ -204,7 +230,7 @@
     <section class="content-header">
       <h1>
         PFC
-        <small>Prueba de laboratorio Nro. 1</small>
+        <small>Prueba de Campo Nro. 2</small>
       </h1>
     </section>
     <!-- Main content -->
@@ -293,41 +319,41 @@
             <div class="box-body">
                <div id="bateria" width="100%" cellspacing="0"><!-- Plotly chart will be drawn inside this DIV --></div>
             </div>
+        </div>
+        <!-- Tabla de datos del sistema -->
+         <div class="box box-warning">
+          <div class="box-header">
+            <h3 class="box-title">Tabla de datos</h3>
           </div>
-          <!-- Tabla de datos del sistema -->
-           <div class="box box-warning">
-            <div class="box-header">
-              <h3 class="box-title">Tabla de datos</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <table id="DataTable" class="table table-bordered table-striped responsive display no-wrap" width="100%" cellspacing="0">
-                <thead>
-                <tr>
+          <!-- /.box-header -->
+           <div class="box-body">
+            <table id="DataTable" class="table table-bordered table-striped responsive display no-wrap" width="100%" cellspacing="0">
+              <thead>
+              <tr>
                   <th>Nodo</th>
                   <th>Rol</th>
                   <th>Tipo_sensor</th>
                   <th>Sensor</th>
                   <th>Dato</th>
                   <th>Marca de tiempo</th>
-                </tr>
-                </thead>
-                <!-- <tbody> </tbody> -->
-                <tfoot>
-                <tr>
+              </tr>
+              </thead>
+              <!-- <tbody> </tbody> -->
+              <tfoot>
+              <tr>
                   <th>Nodo</th>
                   <th>Rol</th>
                   <th>Tipo_sensor</th>
                   <th>Sensor</th>
                   <th>Dato</th>
                   <th>Marca de tiempo</th>
-                </tr>
-                </tfoot>
-              </table>
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
+              </tr>
+              </tfoot>
+            </table>
+           </div>
+          <!-- /.box-body -->
+         </div>
+        <!-- /.box -->
         <!-- grafica de temperatura global -->
         <div class="box box-info">
           <div class="box-header with-border">
@@ -385,7 +411,6 @@
                 </div>
               </div>
     <!-- /.content -->
-  </div>
         <!-- /.box -->
     </section>
     <!-- /.content -->
@@ -486,8 +511,10 @@
   <!-- AdminLTE App -->
   <script src="{% static "js/app.min.js" %}"></script>
   <!-- dataTables Js -->
-  <script src="{% static "js/dataTables.bootstrap.min.js" %}"></script>
-  <script src="{% static "js/jquery.dataTables.min.js" %}"></script>
+  <!-- <script src="{% static "js/dataTables.bootstrap.min.js" %}"></script>
+  <script src="{% static "js/jquery.dataTables.min.js" %}"></script> -->
+  <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
   <script src="https://cdn.datatables.net/rowreorder/1.2.0/js/dataTables.rowReorder.min.js"></script>
   <script src="https://cdn.datatables.net/responsive/2.1.1/js/dataTables.responsive.min.js "></script>
   <script src="https://cdn.datatables.net/buttons/1.2.4/js/dataTables.buttons.min.js"></script>
@@ -508,10 +535,8 @@
         var table = $('#DataTable').DataTable({
               "language": language_d,  // global variable defined in html
               "ordering": [[1 , "asc" ]],
-              "dom": 'lBfrtip',
-                  buttons: [
-                  'csv','pdf'
-              ],
+              "dom": '<"floaRight"B><"clear">rlftip',
+                  buttons: ['csvHtml5','pdfHtml5'],
               "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, 'All']],
               "searching": true,
               "processing": true,
@@ -519,9 +544,9 @@
               "stateSave": true,
               "legacyAjax": true,
               "ajax": TABLA_LIST_JSON_URL,
-              //rowReorder: {
-              //  selector: 'td:first-child'
-              //},
+              rowReorder: {
+                selector: 'td:nth-child(2)'
+              },
               responsive: true,
           });
       });
@@ -546,7 +571,7 @@
   <!-- JS - Temperatura_1 -->
   <script type="text/javascript">
 
-  Plotly.d3.json('{% url 'wsn:api_graph_lab' %}', function(dat_fig){
+  Plotly.d3.json('{% url 'wsn:api_graph_campo_dos' %}', function(dat_fig){
     //aux arrays
     var x_data_node1 = [],
         x_data_node2 = [],
@@ -645,15 +670,23 @@
         }
       });
 
-    window.onresize = function() {
-      Plotly.Plots.resize(gr);
-    };
+    $(window).resize(function() {
+     var divheight = $("#temperatura_1").height();
+     var divwidth = $("#temperatura_1").width();
+
+     var update = {
+              width:divwidth,  // or any new width
+              height:divheight // " "
+            };
+
+    Plotly.relayout('temperatura_1', update);
+            }).resize();
 
   </script>
   <!-- JS - Temperatura_2 -->
   <script type="text/javascript">
 
-  Plotly.d3.json('{% url 'wsn:api_graph_lab' %}', function(dat_fig){
+  Plotly.d3.json('{% url 'wsn:api_graph_campo_dos' %}', function(dat_fig){
     //aux arrays
     var x_data_node1 = [],
         x_data_node2 = [],
@@ -752,15 +785,23 @@
         }
     });
 
-    window.onresize = function() {
-      Plotly.Plots.resize(gr);
-    };
+    $(window).resize(function() {
+     var divheight = $("#temperatura_2").height();
+     var divwidth = $("#temperatura_2").width();
+
+     var update = {
+              width:divwidth,  // or any new width
+              height:divheight // " "
+            };
+
+    Plotly.relayout('temperatura_2', update);
+            }).resize();
 
   </script>
   <!-- JS - Humedad -->
     <script type="text/javascript">
 
-    Plotly.d3.json('{% url 'wsn:api_graph_lab' %}', function(dat_fig){
+    Plotly.d3.json('{% url 'wsn:api_graph_campo_dos' %}', function(dat_fig){
       //aux arrays
       var x_data_node1 = [],
           x_data_node2 = [],
@@ -845,7 +886,7 @@
         var data = [node1_data,node2_data,node3_data,node4_data];
 
         //Finalmente creo la grafica
-        var gr = Plotly.plot('humedad', data , {
+        Plotly.plot('humedad', data , {
           title:'DHT22',
           xaxis: {title: 'Tiempo',
                   rangeselector: selectorOptions,
@@ -856,19 +897,32 @@
                   fixedrange: true},
           margin: {t: 20},
           autosize: true,
+          font: {size: 14},
           });
         } //endif
     });
 
-    window.onresize = function() {
-      Plotly.Plots.resize(gr);
-    };
+    //window.onresize = function() {
+    //  Plotly.Plots.resize('humedad');
+    //};
+
+    $(window).resize(function() {
+     var divheight = $("#humedad").height();
+     var divwidth = $("#humedad").width();
+
+     var update = {
+              width:divwidth,  // or any new width
+              height:divheight // " "
+            };
+
+    Plotly.relayout('humedad', update);
+        }).resize();
 
     </script>
     <!-- JS - presion atmosferica -->
     <script type="text/javascript">
 
-    Plotly.d3.json('{% url 'wsn:api_graph_lab' %}', function(dat_fig){
+    Plotly.d3.json('{% url 'wsn:api_graph_campo_dos' %}', function(dat_fig){
       //aux arrays
       var x_data_node1 = [],
           x_data_node2 = [],
@@ -962,19 +1016,28 @@
                     fixedrange: true},
             margin: {t: 20},
             autosize: true,
+            font: {size: 14},
             });
           } //endif
         });
 
-      window.onresize = function() {
-        Plotly.Plots.resize(gr);
-      };
+        $(window).resize(function() {
+         var divheight = $("#presion").height();
+         var divwidth = $("#presion").width();
+
+         var update = {
+                  width:divwidth,  // or any new width
+                  height:divheight // " "
+                };
+
+        Plotly.relayout('presion', update);
+                }).resize();
 
     </script>
 
         <script type="text/javascript">
 
-        Plotly.d3.json('{% url 'wsn:api_graph_lab' %}', function(dat_fig){
+        Plotly.d3.json('{% url 'wsn:api_graph_campo_dos' %}', function(dat_fig){
           //aux arrays
           var x_data_node1 = [],
               x_data_node2 = [],
@@ -1068,20 +1131,31 @@
                         fixedrange: true},
                 margin: {t: 20},
                 autosize: true,
+                font: {size: 14},
                 });
               } //endif
             });
 
-          window.onresize = function() {
-            Plotly.Plots.resize(gr);
-          };
+            $(window).resize(function() {
+             var divheight = $("#freatico").height();
+             var divwidth = $("#freatico").width();
+
+             var update = {
+                      width:divwidth,  // or any new width
+                      height:divheight // " "
+                    };
+
+            Plotly.relayout('freatico', update);
+
+                }).resize();
+
 
         </script>
 
       <!-- JS - presion atmosferica -->
       <script type="text/javascript">
 
-      Plotly.d3.json('{% url 'wsn:api_graph_lab' %}', function(dat_fig){
+      Plotly.d3.json('{% url 'wsn:api_graph_campo_dos' %}', function(dat_fig){
         //aux arrays
         var x_data_node1 = [],
             x_data_node2 = [],
@@ -1173,14 +1247,23 @@
                       type: 'log',
                       fixedrange: true},
               margin: {t: 20},
-              autosize: true,
-              });
+              font: {size: 14},
+              } );
             } //endif
           });
 
-        window.onresize = function() {
-          Plotly.Plots.resize(gr);
-        };
+        $(window).resize(function() {
+         var divheight = $("#bateria").height();
+         var divwidth = $("#bateria").width();
+
+         var update = {
+                  width:divwidth,  // or any new width
+                  height:divheight // " "
+                };
+
+        Plotly.relayout('bateria', update);
+
+            }).resize();
 
       </script>
 

@@ -5,37 +5,57 @@ from django.contrib.auth.decorators import login_required
 from braces.views import LoginRequiredMixin, PermissionRequiredMixin
 from rest_framework.generics import ListCreateAPIView, ListAPIView
 from rest_framework.renderers import JSONRenderer
-from wsn.serializers import ConfiguracionSerializers, DatoSerializers, DatosTablaLabSerializers
-from wsn.models import Dato, Locacion, BatteryLife, DatosLab, LocacionesNodo,Configuracion_wsn
+from wsn.serializers import ConfiguracionSerializers, DatoSerializers, DatosTablaLabUnoSerializers
+from wsn.models import Dato, Locacion, BatteryLife, DatosLabUno, LocacionesNodo,Configuracion_wsn
 from django_datatables_view.base_datatable_view import BaseDatatableView
 
-"""#App Principal"""
+"""#Index View"""
 @login_required
 def main_page(request):
     object = request.POST.get('next',None)
     if object is not None:
         return redirect(request.POST.get('next'))
     else:
-        return redirect('wsn/lab-test/')
+        return redirect('wsn/lab-test/1/')
 
+"""#Lab Test Views """
+#Redirect to lab_uno
 @login_required
 def lab_page(request):
-    locaciones = LocacionesNodo.objects.all().filter(wsn_descrip='Prueba de Laboratorio') #locaciones lab
-    bat = BatteryLife.objects.all().filter(wsn_descrip='Prueba de Laboratorio', data__lte = 6) # tension de nodos lab / menores a 3.8 bateria baja (lte <=)
-    return render(request, 'wsn/starter.html', {'locaciones':locaciones, 'bat':bat})
+    return redirect('1/')
+
+@login_required
+def lab_uno_page(request):
+    locaciones = LocacionesNodo.objects.all().filter(wsn_descrip='Prueba de Laboratorio Nro. 1') #locaciones lab
+    bat = BatteryLife.objects.all().filter(wsn_descrip='Prueba de Laboratorio Nro. 1', data__lte = 3.8 ) # tension de nodos lab / menores a 3.8 bateria baja (lte <=)
+    return render(request, 'wsn/lab_uno.html', {'locaciones':locaciones, 'bat':bat})
+
+@login_required
+def lab_dos_page(request):
+    locaciones = LocacionesNodo.objects.all().filter(wsn_descrip='Prueba de Laboratorio Nro. 2') #locaciones lab
+    bat = BatteryLife.objects.all().filter(wsn_descrip='Prueba de Laboratorio Nro. 2', data__lte = 3.8 ) # tension de nodos lab / menores a 3.8 bateria baja (lte <=)
+    #return render(request, 'wsn/lab_dos.html', {'locaciones':locaciones, 'bat':bat})
+    return render(request, 'wsn/en_construccion_lab.html', {})
+
+"""#Campo Test Views """
+#Redirect to campo_uno
+@login_required
+def campo_page(request):
+    return redirect('1/')
 
 @login_required
 def campo_uno_page(request):
-    locaciones = LocacionesNodo.objects.all().filter(wsn_descrip='Prueba de campo Nro. 1')
+    locaciones = LocacionesNodo.objects.all().filter(wsn_descrip='Prueba de Campo Nro. 1')
     bat = BatteryLife.objects.all().filter(wsn_descrip='Prueba de campo Nro. 1', data__lte = 3.8) # tension de nodos lab / menores a 3.8 bateria baja (lte <=)
-    return render(request, 'wsn/starter.html', {'locaciones':locaciones, 'bat':bat})
+    #return render(request, 'wsn/campo_uno.html', {'locaciones':locaciones, 'bat':bat})
+    return render(request, 'wsn/en_construccion_campo.html', {})
 
 @login_required
 def campo_dos_page(request):
-    locaciones = LocacionesNodo.objects.all().filter(wsn_descrip='Prueba de campo Nro. 2')
+    locaciones = LocacionesNodo.objects.all().filter(wsn_descrip='Prueba de Campo Nro. 2')
     bat = BatteryLife.objects.all().filter(wsn_descrip='Prueba de campo Nro. 2', data__lte = 3.8) # tension de nodos lab / menores a 3.8 bateria baja (lte <=)
     #return render(request, 'wsn/starter.html', {'locaciones':locaciones, 'bat':bat})
-    return render(request, 'wsn/en_construccion.html', {})
+    return render(request, 'wsn/en_construccion_campo.html', {})
 
 """#REST views--------------------------"""
 class DatoList(ListCreateAPIView):
@@ -51,13 +71,23 @@ class ConfiguracionList(ListCreateAPIView):
 LoginRequiredMixin herera todos los atributos del login seteados en el sistema. Es por esto,
 que no es necesario configurar ningun parametro
 """
-class DatosGraphLabList(LoginRequiredMixin, ListAPIView):
+class DatosGraphLab_Uno_List(LoginRequiredMixin, ListAPIView):
     renderer_classes = (JSONRenderer, )
-    queryset = DatosLab.objects.all()
-    serializer_class = DatosTablaLabSerializers
+    queryset = DatosLabUno.objects.all()
+    serializer_class = DatosTablaLabUnoSerializers
 
 """#datatables Json generator"""
-class DatosTableLabList(LoginRequiredMixin, BaseDatatableView):
-    model = DatosLab
+class DatosTableLab_Uno_List(LoginRequiredMixin, BaseDatatableView):
+    model = DatosLabUno
     columns = ['nodo', 'rol', 'tipo_sensor', 'sensor', 'data','fecha_hora_text']
     order_columns = ['nodo', 'rol', 'tipo_sensor', 'sensor', 'data', 'fecha_hora_text']
+
+#Faltan las siguientes vista:
+#--Lab
+#DatosGraphLab_Dos_List
+#DatosTableLab_Dos_List
+#--Campo
+#DatosTableCampo_Uno_List
+#DatosTableCampo_Dos_List
+#DatosTableCampo_Uno_List
+#DatosTableCampo_Dos_List

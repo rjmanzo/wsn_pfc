@@ -192,7 +192,7 @@ class BatteryLife(pg.View):
         default_related_name = 'battery_life'
         managed = False
 
-VIEW_SQL_TDLAB = """
+VIEW_SQL_TDLAB_UNO = """
     SELECT  d.dato_id,
             n.nod_descrip||'_'||ts.type_sen_descrip||'_'||s.sen_descrip as filtro,
             n.nod_descrip as nodo,
@@ -212,10 +212,10 @@ VIEW_SQL_TDLAB = """
     LEFT JOIN sensor s ON s.sen_id = d.sen_id
     LEFT JOIN tipo_sensor ts ON ts.type_sen_id = s.type_sen_id
     LEFT JOIN locacion l ON l.locacion_id = nr.locacion_id
-    where w.wsn_id = 1
+    where w.wsn_id = 1 --wsn: Prueba de Laboratorio Nro. 1
 """
 
-class DatosLab(pg.View):
+class DatosLabUno(pg.View):
     dato_id = models.IntegerField(primary_key=True)
     filtro = models.TextField()
     nodo = models.CharField(max_length=300)
@@ -228,7 +228,7 @@ class DatosLab(pg.View):
     fecha_hora_text = models.TextField()
     #projection = ['dato.*',]
     #dependencies = ['myapp.OtherView',]
-    sql = VIEW_SQL_TDLAB
+    sql = VIEW_SQL_TDLAB_UNO
 
     def __str__(self):
         dato = self.nodo +" ("+self.locacion+ ") - " + self.fecha_hora.strftime("%Y-%m-%d %H:%M:%S")
@@ -274,3 +274,8 @@ class LocacionesNodo(pg.View):
     @property
     def popupContent(self):
       return self.locacion_descrip
+
+#Los modelos (pg.views) que faltan:
+#DatosLabDos
+#DatosCampoUno
+#DatosCampoDos
