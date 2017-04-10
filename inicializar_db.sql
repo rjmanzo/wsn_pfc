@@ -27,7 +27,8 @@ INSERT INTO tipo_sensor (type_sen_descrip) VALUES ('Distancia');
 INSERT INTO tipo_sensor (type_sen_descrip) VALUES ('Presión');
 INSERT INTO tipo_sensor (type_sen_descrip) VALUES ('Batería');
 --Table:  wsn
-INSERT INTO wsn (wsn_descrip) VALUES ('Prueba de Laboratorio');
+INSERT INTO wsn (wsn_descrip) VALUES ('Prueba de Laboratorio Nro. 1');
+INSERT INTO wsn (wsn_descrip) VALUES ('Prueba de Laboratorio Nro. 2');
 INSERT INTO wsn (wsn_descrip) VALUES ('Prueba de campo Nro. 1');
 INSERT INTO wsn (wsn_descrip) VALUES ('Prueba de campo Nro. 2');
 --Table: sensor
