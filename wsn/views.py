@@ -19,8 +19,8 @@ def main_page(request):
         #if request.user.is_authenticated():
         username = request.user.username
         #username = request.POST.get('username')
-        if username == 'yatchclub':
-            return redirect('wsn/yatchclub-sf/') #redirect to yatchclub view
+        if username == 'yachtclub':
+            return redirect('wsn/yachtclub-sf/') #redirect to yatchclub view
         else:
             return redirect('wsn/lab-test/1/')
 
@@ -66,9 +66,9 @@ def campo_dos_page(request):
 
 """Vista personalizada para el Yacthclub"""
 @login_required
-def yatchclub_page(request):
+def yachtclub_page(request):
     locaciones = LocacionesNodo.objects.all().filter(wsn_descrip='Prueba de Campo Nro. 1')
-    return render(request, 'wsn/yatchclub.html', {})
+    return render(request, 'wsn/yachtclub.html', {})
 
 """#REST views--------------------------"""
 class DatoList(ListCreateAPIView):
