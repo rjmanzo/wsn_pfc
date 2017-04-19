@@ -54,7 +54,7 @@ def campo_uno_page(request):
     locaciones = LocacionesNodo.objects.all().filter(wsn_descrip='Prueba de Campo Nro. 1')
     bat = BatteryLife.objects.all().filter(wsn_descrip='Prueba de campo Nro. 1', data__lte = 3.95) # tension de nodos lab / menores a 3.8 bateria baja (lte <=)
     #return render(request, 'wsn/campo_uno.html', {'locaciones':locaciones, 'bat':bat})
-    return render(request, 'wsn/en_construccion_campo.html', {})
+    return render(request, 'wsn/campo_uno.html', {})
 
 @login_required
 def campo_dos_page(request):
