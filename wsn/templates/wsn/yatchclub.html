@@ -110,14 +110,10 @@
               <ul class="dropdown-menu">
                 <!-- The user image in the menu -->
                 <li class="user-header">
-                  {% if user.username == "ceneha" %}
-                  <img src="{% static "img/ceneha.jpg" %}" class="img-circle" alt="User Image">
-                  {% else %}
                   <img src="{% static "img/invite.png" %}" class="img-circle" alt="User Image">
-                  {%endif%}
                   <p>
                     {{ user.username }} - Usuario
-                    <small>Miembro desde Dic . 2016</small>
+                    <small>Miembro desde Abril . 2017</small>
                   </p>
                 </li>
                 <!-- Menu Body -->
@@ -162,11 +158,7 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel">
         <div class="pull-left image">
-          {% if user.username == "ceneha" %}
-          <img src="{% static "img/ceneha.jpg" %}" class="img-circle" alt="User Image">
-          {% else %}
           <img src="{% static "img/invite.png" %}" class="img-circle" alt="User Image">
-          {%endif%}
         </div>
         <div class="pull-left info">
           <p><font size="3"> {{ user.username }}</font></p>
@@ -192,32 +184,17 @@
         <li class="treeview active">
           <a>
             <i class="fa fa-bar-chart"></i>
-            <span>Pruebas de Laboratorio</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="{%url 'wsn:lab' %}"><i class="fa fa-circle-o"></i> <span>Test N° 1</span></a></li>
-            <li><a href="{%url 'wsn:lab' %}"><i class="fa fa-circle-o"></i> <span>Test N° 2</span></a></li>
-          </ul>
-        </li>
-        <!--Field test-->
-        <li class="treeview">
-          <a>
-            <i class="fa fa-bar-chart"></i>
             <span>Pruebas de Campo</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{%url 'wsn:campo_uno' %}"><i class="fa fa-circle-o"></i> <span>Test N° 1</span></a></li>
-            <li><a href="{%url 'wsn:campo_dos' %}"><i class="fa fa-circle-o"></i> <span>Test N° 2</span></a></li>
+            <li><a href="{%url 'wsn:yatchclub' %}"><i class="fa fa-circle-o"></i> <span>yatchclub-sf</span></a></li>
           </ul>
         </li>
+        <!--Field test-->
         <!--Admin site-->
-        <li><a href="{% url 'admin:index' %}"><i class="fa fa-edit"></i> <span>Administración</span></a></li>
       </ul>
       <!-- /.sidebar-menu -->
     </section>
@@ -228,10 +205,6 @@
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>
-        PFC
-        <small>Prueba de Campo Nro. 1</small>
-      </h1>
     </section>
     <!-- Main content -->
     <section class="content">
@@ -307,19 +280,6 @@
         </div>
         <!--/. box-->
         <!-- Tension: Estado de las baterias del sistema -->
-        <div class="box box-primary collapsed-box">
-            <div class="box-header with-border">
-              <h3 class="box-title">Nivel de batería</h3>
-
-              <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                  <i class="fa fa-plus"></i></button>
-              </div>
-            </div>
-            <div class="box-body">
-               <div id="bateria" width="100%" cellspacing="0"><!-- Plotly chart will be drawn inside this DIV --></div>
-            </div>
-        </div>
         <!-- Tabla de datos del sistema -->
          <div class="box box-warning">
           <div class="box-header">
@@ -357,7 +317,7 @@
         <!-- grafica de temperatura global -->
         <div class="box box-info">
           <div class="box-header with-border">
-            <h3 class="box-title">Gráficas - temperatura</h3>
+            <h3 class="box-title">Gráficas - Temperatura</h3>
 
             <div class="box-tools pull-right">
               <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -369,21 +329,7 @@
             <div id="temperatura_2" width="100%" cellspacing="0"><!-- Plotly chart will be drawn inside this DIV --></div>
           </div>
         </div>
-        <!-- grafica de humedad global -->
-        <div class="box box-danger">
-            <div class="box-header with-border">
-              <h3 class="box-title">Gráficas - Humedad</h3>
-
-              <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                  <i class="fa fa-minus"></i></button>
-              </div>
-            </div>
-            <div class="box-body">
-              <div id="humedad" width="100%" cellspacing="0"><!-- Plotly chart will be drawn inside this DIV --></div>
-            </div>
-          </div>
-          <!-- grafica de nivel freatico global -->
+          <!-- grafica de presion atmosferica -->
           <div class="box box-primary">
               <div class="box-header with-border">
                 <h3 class="box-title">Gráficas - Presión atmosférica</h3>
@@ -397,9 +343,10 @@
                  <div id="presion" width="100%" cellspacing="0"><!-- Plotly chart will be drawn inside this DIV --></div>
               </div>
             </div>
+            <!-- grafica de la altura del rio -->
             <div class="box box-success">
                 <div class="box-header with-border">
-                  <h3 class="box-title">Gráficas - Nivel freático</h3>
+                  <h3 class="box-title">Gráficas - Altura del rio</h3>
 
                   <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -407,7 +354,7 @@
                   </div>
                 </div>
                 <div class="box-body">
-                   <div id="freatico" width="100%" cellspacing="0"><!-- Plotly chart will be drawn inside this DIV --></div>
+                   <div id="rio" width="100%" cellspacing="0"><!-- Plotly chart will be drawn inside this DIV --></div>
                 </div>
               </div>
     <!-- /.content -->
@@ -424,7 +371,7 @@
       PFC - Ing. Informática - FICH / UNL
     </div>
     <!-- Default to the left -->
-    <strong> 2017 <a href="#">Renato J. Manzo</a>.</strong>
+    <strong> 2017 <a href="https://www.linkedin.com/in/renato-jos%C3%A9-manzo-00924652/">Renato J. Manzo</a>.</strong>
   </footer>
 
   <!-- Control Sidebar -->
@@ -798,125 +745,6 @@
             }).resize();
 
   </script>
-  <!-- JS - Humedad -->
-    <script type="text/javascript">
-
-    Plotly.d3.json('{% url 'wsn:api_graph_campo_uno' %}', function(dat_fig){
-      //aux arrays
-      var x_data_node1 = [],
-          x_data_node2 = [],
-          x_data_node3 = [],
-          x_data_node4 = [];
-
-      var y_data_node1 = [],
-          y_data_node2 = [],
-          y_data_node3 = [],
-          y_data_node4 = [];
-
-      //asigno a las variables los datos de los nodos
-      for (i = 0; i < dat_fig.length; i++) {
-        if(dat_fig[i].filtro == "Nodo_1_Humedad_DHT22")
-          x_data_node1.push(dat_fig[i].timestamp);
-          y_data_node1.push(dat_fig[i].data);
-        if(dat_fig[i].filtro == "Nodo_2_Humedad_DHT22")
-          x_data_node2.push(dat_fig[i].timestamp);
-          y_data_node2.push(dat_fig[i].data);
-        if(dat_fig[i].filtro == "Nodo_3_Humedad_DHT22")
-          x_data_node3.push(dat_fig[i].timestamp);
-          y_data_node3.push(dat_fig[i].data);
-        if(dat_fig[i].filtro == "Nodo_4_Humedad_DHT22")
-          x_data_node4.push(dat_fig[i].timestamp);
-          y_data_node4.push(dat_fig[i].data);
-      }
-
-      if (x_data_node1[0] != null || x_data_node2[0] != null || x_data_node3[0] != null || x_data_node4[0] != null)  {
-
-        //Cargo las variables de cada nodo con la información de X e Y
-        var node1_data = {
-            x: x_data_node1,
-            y: y_data_node1,
-            type: 'scatter',
-            line: {shape: 'spline'},
-            name: 'Nodo_1'
-        };
-        var node2_data = {
-            x: x_data_node2,
-            y: y_data_node2,
-            type: 'scatter',
-            line: {shape: 'spline'},
-            name: 'Nodo_2'
-        };
-        var node3_data = {
-            x: x_data_node3,
-            y: y_data_node3,
-            type: 'scatter',
-            line: {shape: 'spline'},
-            name: 'Nodo_3'
-        };
-        var node4_data = {
-            x: x_data_node4,
-            y: y_data_node4,
-            type: 'scatter',
-            line: {shape: 'spline'},
-            name: 'Nodo_4'
-        };
-
-        //seteo el tipo de variable del selector
-        var xField = 'Date';
-        var yField = 'Humedad';
-
-        //genero el selector para filtrar los datos (todos backward)
-        var selectorOptions = {
-            buttons: [{
-                step: 'day',
-                stepmode: 'backward',
-                count: 1,
-                label: 'Día'
-            }, {
-                step: 'day',
-                stepmode: 'backward',
-                count: 7,
-                label: 'Semana'
-            }, {
-                step: 'all',
-            }],
-        };
-
-        //Creo una variable global de datos
-        var data = [node1_data,node2_data,node3_data,node4_data];
-
-        //Finalmente creo la grafica
-        Plotly.plot('humedad', data , {
-          title:'DHT22',
-          xaxis: {title: 'Tiempo',
-                  rangeselector: selectorOptions,
-                  //rangeslider: {}
-                },
-          yaxis: {title: 'Humedad (%)',
-                  type: 'log',
-                  fixedrange: true},
-          margin: {t: 20},
-          autosize: true,
-          font: {size: 14},
-          });
-        } //endif
-    });
-
-    //window.onresize = function() {
-    //  Plotly.Plots.resize('humedad');
-    //};
-
-    $(window).resize(function() {
-     var divheight = $("#humedad").height();
-     var divwidth = $("#humedad").width();
-
-     var update = {
-              width:divwidth,  // or any new width
-              height:divheight // " "
-            };
-
-    Plotly.relayout('humedad', update);
-        }).resize();
 
     </script>
     <!-- JS - presion atmosferica -->
@@ -1120,8 +948,8 @@
               var data = [node1_data,node2_data,node3_data,node4_data];
 
               //Finalmente creo la grafica
-              var gr = Plotly.plot('freatico', data , {
-                title:'MB7092',
+              var gr = Plotly.plot('rio', data , {
+                title:'Laguna Setubal - Yachtclub SF',
                 xaxis: {title: 'Tiempo',
                         rangeselector: selectorOptions,
                         //rangeslider: {}
@@ -1137,135 +965,20 @@
             });
 
             $(window).resize(function() {
-             var divheight = $("#freatico").height();
-             var divwidth = $("#freatico").width();
+             var divheight = $("#rio").height();
+             var divwidth = $("#rio").width();
 
              var update = {
                       width:divwidth,  // or any new width
                       height:divheight // " "
                     };
 
-            Plotly.relayout('freatico', update);
+            Plotly.relayout('rio', update);
 
                 }).resize();
 
 
         </script>
-
-      <!-- JS - presion atmosferica -->
-      <script type="text/javascript">
-
-      Plotly.d3.json('{% url 'wsn:api_graph_campo_uno' %}', function(dat_fig){
-        //aux arrays
-        var x_data_node1 = [],
-            x_data_node2 = [],
-            x_data_node3 = [],
-            x_data_node4 = [];
-
-        var y_data_node1 = [],
-            y_data_node2 = [],
-            y_data_node3 = [],
-            y_data_node4 = [];
-
-        //asigno a las variables los datos de los nodos
-        for (i = 0; i < dat_fig.length; i++) {
-          if(dat_fig[i].filtro == "Nodo_1_Batería_Tensión")
-            x_data_node1.push(dat_fig[i].timestamp);
-            y_data_node1.push(dat_fig[i].data);
-          if(dat_fig[i].filtro == "Nodo_2_Batería_Tensión")
-            x_data_node2.push(dat_fig[i].timestamp);
-            y_data_node2.push(dat_fig[i].data);
-          if(dat_fig[i].filtro == "Nodo_3_Batería_Tensión")
-            x_data_node3.push(dat_fig[i].timestamp);
-            y_data_node3.push(dat_fig[i].data);
-          if(dat_fig[i].filtro == "Nodo_4_Batería_Tensión")
-            x_data_node4.push(dat_fig[i].timestamp);
-            y_data_node4.push(dat_fig[i].data);
-        }
-
-        if (x_data_node1[0] != null || x_data_node2[0] != null || x_data_node3[0] != null || x_data_node4[0] != null)  {
-          var node1_data = {
-              x: x_data_node1,
-              y: y_data_node1,
-              type: 'scatter',
-              line: {shape: 'spline'},
-              name: 'Nodo_1'
-          };
-          var node2_data = {
-              x: x_data_node2,
-              y: y_data_node2,
-              type: 'scatter',
-              line: {shape: 'spline'},
-              name: 'Nodo_2'
-          };
-          var node3_data = {
-              x: x_data_node3,
-              y: y_data_node3,
-              type: 'scatter',
-              line: {shape: 'spline'},
-              name: 'Nodo_3'
-          };
-          var node4_data = {
-              x: x_data_node4,
-              y: y_data_node4,
-              type: 'scatter',
-              line: {shape: 'spline'},
-              name: 'Nodo_4'
-          };
-
-            //seteo el tipo de variable del selector
-            var xField = 'Date';
-            var yField = 'Tensión';
-
-            //genero el selector para filtrar los datos (todos backward)
-            var selectorOptions = {
-                buttons: [{
-                    step: 'day',
-                    stepmode: 'backward',
-                    count: 1,
-                    label: 'Día'
-                }, {
-                    step: 'day',
-                    stepmode: 'backward',
-                    count: 7,
-                    label: 'Semana'
-                }, {
-                    step: 'all',
-                }],
-            };
-
-            //Creo una variable global de datos
-            var data = [node1_data,node2_data,node3_data,node4_data];
-
-            //Finalmente creo la grafica
-            var gr = Plotly.plot('bateria', data , {
-              xaxis: {title: 'Tiempo',
-                      rangeselector: selectorOptions,
-                      //rangeslider: {}
-                    },
-              yaxis: {title: 'Tensión (V)',
-                      type: 'log',
-                      fixedrange: true},
-              margin: {t: 20},
-              font: {size: 14},
-              } );
-            } //endif
-          });
-
-        $(window).resize(function() {
-         var divheight = $("#bateria").height();
-         var divwidth = $("#bateria").width();
-
-         var update = {
-                  width:divwidth,  // or any new width
-                  height:divheight // " "
-                };
-
-        Plotly.relayout('bateria', update);
-
-            }).resize();
-
-      </script>
 
   </body>
   </html>

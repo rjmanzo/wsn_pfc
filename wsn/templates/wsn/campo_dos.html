@@ -1051,16 +1051,16 @@
 
           //asigno a las variables los datos de los nodos
           for (i = 0; i < dat_fig.length; i++) {
-            if(dat_fig[i].filtro == "Nodo_1_Distancia_GP2Y0A710K0F")
+            if(dat_fig[i].filtro == "Nodo_1_Distancia_MB7092")
               x_data_node1.push(dat_fig[i].timestamp);
               y_data_node1.push(dat_fig[i].data);
-            if(dat_fig[i].filtro == "Nodo_2_Distancia_GP2Y0A710K0F")
+            if(dat_fig[i].filtro == "Nodo_2_Distancia_MB7092")
               x_data_node2.push(dat_fig[i].timestamp);
               y_data_node2.push(dat_fig[i].data);
-            if(dat_fig[i].filtro == "Nodo_3_Distancia_GP2Y0A710K0F")
+            if(dat_fig[i].filtro == "Nodo_3_Distancia_MB7092")
               x_data_node3.push(dat_fig[i].timestamp);
               y_data_node3.push(dat_fig[i].data);
-            if(dat_fig[i].filtro == "Nodo_4_Distancia_GP2Y0A710K0F")
+            if(dat_fig[i].filtro == "Nodo_4_Distancia_MB7092")
               x_data_node4.push(dat_fig[i].timestamp);
               y_data_node4.push(dat_fig[i].data);
           }
@@ -1121,7 +1121,7 @@
 
               //Finalmente creo la grafica
               var gr = Plotly.plot('freatico', data , {
-                title:'GP2Y0A710K0F',
+                title:'MB7092',
                 xaxis: {title: 'Tiempo',
                         rangeselector: selectorOptions,
                         //rangeslider: {}

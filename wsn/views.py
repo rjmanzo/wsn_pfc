@@ -5,8 +5,8 @@ from django.contrib.auth.decorators import login_required
 from braces.views import LoginRequiredMixin, PermissionRequiredMixin
 from rest_framework.generics import ListCreateAPIView, ListAPIView
 from rest_framework.renderers import JSONRenderer
-from wsn.serializers import ConfiguracionSerializers, DatoSerializers, DatosTablaLabUnoSerializers
-from wsn.models import Dato, Locacion, BatteryLife, DatosLabUno, LocacionesNodo,Configuracion_wsn
+from wsn.serializers import ConfiguracionSerializers, DatoSerializers, DatosTablaLabUnoSerializers, DatosTablaCampoUnoSerializers
+from wsn.models import Dato, Locacion, BatteryLife, DatosLabUno, DatosCampoUno, LocacionesNodo,Configuracion_wsn
 from django_datatables_view.base_datatable_view import BaseDatatableView
 
 """#Index View"""
@@ -16,7 +16,13 @@ def main_page(request):
     if object is not None:
         return redirect(request.POST.get('next'))
     else:
-        return redirect('wsn/lab-test/1/')
+        #if request.user.is_authenticated():
+        username = request.user.username
+        #username = request.POST.get('username')
+        if username == 'yatchclub':
+            return redirect('wsn/yatchclub-sf/') #redirect to yatchclub view
+        else:
+            return redirect('wsn/lab-test/1/')
 
 """#Lab Test Views """
 #Redirect to lab_uno
@@ -27,13 +33,13 @@ def lab_page(request):
 @login_required
 def lab_uno_page(request):
     locaciones = LocacionesNodo.objects.all().filter(wsn_descrip='Prueba de Laboratorio Nro. 1') #locaciones lab
-    bat = BatteryLife.objects.all().filter(wsn_descrip='Prueba de Laboratorio Nro. 1', data__lte = 3.8 ) # tension de nodos lab / menores a 3.8 bateria baja (lte <=)
+    bat = BatteryLife.objects.all().filter(wsn_descrip='Prueba de Laboratorio Nro. 1', data__lte = 3.95 ) # tension de nodos lab / menores a 3.8 bateria baja (lte <=)
     return render(request, 'wsn/lab_uno.html', {'locaciones':locaciones, 'bat':bat})
 
 @login_required
 def lab_dos_page(request):
     locaciones = LocacionesNodo.objects.all().filter(wsn_descrip='Prueba de Laboratorio Nro. 2') #locaciones lab
-    bat = BatteryLife.objects.all().filter(wsn_descrip='Prueba de Laboratorio Nro. 2', data__lte = 3.8 ) # tension de nodos lab / menores a 3.8 bateria baja (lte <=)
+    bat = BatteryLife.objects.all().filter(wsn_descrip='Prueba de Laboratorio Nro. 2', data__lte = 3.95 ) # tension de nodos lab / menores a 3.8 bateria baja (lte <=)
     #return render(request, 'wsn/lab_dos.html', {'locaciones':locaciones, 'bat':bat})
     return render(request, 'wsn/en_construccion_lab.html', {})
 
@@ -46,16 +52,23 @@ def campo_page(request):
 @login_required
 def campo_uno_page(request):
     locaciones = LocacionesNodo.objects.all().filter(wsn_descrip='Prueba de Campo Nro. 1')
-    bat = BatteryLife.objects.all().filter(wsn_descrip='Prueba de campo Nro. 1', data__lte = 3.8) # tension de nodos lab / menores a 3.8 bateria baja (lte <=)
+    bat = BatteryLife.objects.all().filter(wsn_descrip='Prueba de campo Nro. 1', data__lte = 3.95) # tension de nodos lab / menores a 3.8 bateria baja (lte <=)
     #return render(request, 'wsn/campo_uno.html', {'locaciones':locaciones, 'bat':bat})
     return render(request, 'wsn/en_construccion_campo.html', {})
 
 @login_required
 def campo_dos_page(request):
     locaciones = LocacionesNodo.objects.all().filter(wsn_descrip='Prueba de Campo Nro. 2')
-    bat = BatteryLife.objects.all().filter(wsn_descrip='Prueba de campo Nro. 2', data__lte = 3.8) # tension de nodos lab / menores a 3.8 bateria baja (lte <=)
+    bat = BatteryLife.objects.all().filter(wsn_descrip='Prueba de campo Nro. 2', data__lte = 3.95) # tension de nodos lab / menores a 3.8 bateria baja (lte <=)
     #return render(request, 'wsn/starter.html', {'locaciones':locaciones, 'bat':bat})
     return render(request, 'wsn/en_construccion_campo.html', {})
+
+
+"""Vista personalizada para el Yacthclub"""
+@login_required
+def yatchclub_page(request):
+    locaciones = LocacionesNodo.objects.all().filter(wsn_descrip='Prueba de Campo Nro. 1')
+    return render(request, 'wsn/yatchclub.html', {})
 
 """#REST views--------------------------"""
 class DatoList(ListCreateAPIView):
@@ -87,7 +100,16 @@ class DatosTableLab_Uno_List(LoginRequiredMixin, BaseDatatableView):
 #DatosGraphLab_Dos_List
 #DatosTableLab_Dos_List
 #--Campo
-#DatosTableCampo_Uno_List
+class DatosGraphCampo_Uno_List(LoginRequiredMixin, ListAPIView):
+    renderer_classes = (JSONRenderer, )
+    queryset = DatosCampoUno.objects.all()
+    serializer_class = DatosTablaLabUnoSerializers
+
+"""#datatables Json generator"""
+class DatosTableCampo_Uno_List(LoginRequiredMixin, BaseDatatableView):
+    model = DatosCampoUno
+    columns = ['nodo', 'rol', 'tipo_sensor', 'sensor', 'data','fecha_hora_text']
+    order_columns = ['nodo', 'rol', 'tipo_sensor', 'sensor', 'data', 'fecha_hora_text']
 #DatosTableCampo_Dos_List
 #DatosTableCampo_Uno_List
 #DatosTableCampo_Dos_List
