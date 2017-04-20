@@ -307,19 +307,7 @@
         </div>
         <!--/. box-->
         <!-- Tension: Estado de las baterias del sistema -->
-        <div class="box box-primary collapsed-box">
-            <div class="box-header with-border">
-              <h3 class="box-title">Nivel de batería</h3>
 
-              <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                  <i class="fa fa-plus"></i></button>
-              </div>
-            </div>
-            <div class="box-body">
-               <div id="bateria" width="100%" cellspacing="0"><!-- Plotly chart will be drawn inside this DIV --></div>
-            </div>
-        </div>
         <!-- Tabla de datos del sistema -->
          <div class="box box-warning">
           <div class="box-header">
@@ -370,19 +358,7 @@
           </div>
         </div>
         <!-- grafica de humedad global -->
-        <div class="box box-danger">
-            <div class="box-header with-border">
-              <h3 class="box-title">Gráficas - Humedad</h3>
 
-              <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                  <i class="fa fa-minus"></i></button>
-              </div>
-            </div>
-            <div class="box-body">
-              <div id="humedad" width="100%" cellspacing="0"><!-- Plotly chart will be drawn inside this DIV --></div>
-            </div>
-          </div>
           <!-- grafica de nivel freatico global -->
           <div class="box box-primary">
               <div class="box-header with-border">
@@ -399,7 +375,7 @@
             </div>
             <div class="box box-success">
                 <div class="box-header with-border">
-                  <h3 class="box-title">Gráficas - Nivel freático</h3>
+                  <h3 class="box-title">Gráficas - Altura del rio</h3>
 
                   <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -936,16 +912,16 @@
 
       //asigno a las variables los datos de los nodos
       for (i = 0; i < dat_fig.length; i++) {
-        if(dat_fig[i].filtro == "Nodo_1_Presión_atmosferica_BMP183")
+        if(dat_fig[i].filtro == "Nodo_1_Presion_BMP183")
           x_data_node1.push(dat_fig[i].timestamp);
           y_data_node1.push(dat_fig[i].data);
-        if(dat_fig[i].filtro == "Nodo_2_Presión_atmosferica_BMP183")
+        if(dat_fig[i].filtro == "Nodo_2_Presion_BMP183")
           x_data_node2.push(dat_fig[i].timestamp);
           y_data_node2.push(dat_fig[i].data);
-        if(dat_fig[i].filtro == "Nodo_3_Presión_atmosferica_BMP183")
+        if(dat_fig[i].filtro == "Nodo_3_Presion_BMP183")
           x_data_node3.push(dat_fig[i].timestamp);
           y_data_node3.push(dat_fig[i].data);
-        if(dat_fig[i].filtro == "Nodo_4_Presión_atmosferica_BMP183")
+        if(dat_fig[i].filtro == "Nodo_4_Presion_BMP183")
           x_data_node4.push(dat_fig[i].timestamp);
           y_data_node4.push(dat_fig[i].data);
       }

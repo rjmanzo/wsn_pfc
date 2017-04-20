@@ -8,6 +8,7 @@ from rest_framework.renderers import JSONRenderer
 from wsn.serializers import ConfiguracionSerializers, DatoSerializers, DatosTablaLabUnoSerializers, DatosTablaCampoUnoSerializers
 from wsn.models import Dato, Locacion, BatteryLife, DatosLabUno, DatosCampoUno, LocacionesNodo,Configuracion_wsn
 from django_datatables_view.base_datatable_view import BaseDatatableView
+from braces.views import GroupRequiredMixin
 
 """#Index View"""
 @login_required
@@ -71,7 +72,10 @@ def yachtclub_page(request):
     return render(request, 'wsn/yachtclub.html', {})
 
 """#REST views--------------------------"""
-class DatoList(ListCreateAPIView):
+class DatoList(GroupRequiredMixin,ListCreateAPIView):
+    #permission_required = "auth.change_user"
+    #required
+    group_required = [u"arduino", u"administradores"]
     queryset = Dato.objects.all()
     serializer_class = DatoSerializers
 

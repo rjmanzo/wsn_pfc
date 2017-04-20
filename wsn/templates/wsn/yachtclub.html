@@ -764,16 +764,16 @@
 
       //asigno a las variables los datos de los nodos
       for (i = 0; i < dat_fig.length; i++) {
-        if(dat_fig[i].filtro == "Nodo_1_Presión_atmosferica_BMP183")
+        if(dat_fig[i].filtro == "Nodo_1_Presion_BMP183")
           x_data_node1.push(dat_fig[i].timestamp);
           y_data_node1.push(dat_fig[i].data);
-        if(dat_fig[i].filtro == "Nodo_2_Presión_atmosferica_BMP183")
+        if(dat_fig[i].filtro == "Nodo_2_Presion_BMP183")
           x_data_node2.push(dat_fig[i].timestamp);
           y_data_node2.push(dat_fig[i].data);
-        if(dat_fig[i].filtro == "Nodo_3_Presión_atmosferica_BMP183")
+        if(dat_fig[i].filtro == "Nodo_3_Presion_BMP183")
           x_data_node3.push(dat_fig[i].timestamp);
           y_data_node3.push(dat_fig[i].data);
-        if(dat_fig[i].filtro == "Nodo_4_Presión_atmosferica_BMP183")
+        if(dat_fig[i].filtro == "Nodo_4_Presion_BMP183")
           x_data_node4.push(dat_fig[i].timestamp);
           y_data_node4.push(dat_fig[i].data);
       }
@@ -925,7 +925,7 @@
 
               //seteo el tipo de variable del selector
               var xField = 'Date';
-              var yField = 'Nivel';
+              var yField = 'Altura';
 
               //genero el selector para filtrar los datos (todos backward)
               var selectorOptions = {
@@ -954,7 +954,7 @@
                         rangeselector: selectorOptions,
                         //rangeslider: {}
                       },
-                yaxis: {title: 'Nivel (Mts)',
+                yaxis: {title: 'Altura (Mts)',
                         type: 'log',
                         fixedrange: true},
                 margin: {t: 20},

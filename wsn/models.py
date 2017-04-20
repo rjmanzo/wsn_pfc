@@ -152,7 +152,6 @@ class Configuracion_wsn(models.Model):
 """
 modelos construidos en base a vistas Postgre ---------------------------------------
 """
-
 VIEW_SQL_BAT = """
     SELECT  d.dato_id,
             ((n.nod_descrip::text || '('::text) || l.locacion_descrip::text) || ')'::text AS nodo,
