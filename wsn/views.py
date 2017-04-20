@@ -68,7 +68,7 @@ def campo_dos_page(request):
 """Vista personalizada para el Yacthclub"""
 @login_required
 def yachtclub_page(request):
-    locaciones = LocacionesNodo.objects.all().filter(wsn_descrip='Prueba de campo Nro. 1')
+    locaciones = LocacionesNodo.objects.all().filter(wsn_descrip='Prueba de Campo Nro. 1')
     return render(request, 'wsn/yachtclub.html', {'locaciones':locaciones} )
 
 """#REST views--------------------------"""
