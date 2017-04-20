@@ -152,6 +152,8 @@ class Configuracion_wsn(models.Model):
 """
 modelos construidos en base a vistas Postgre ---------------------------------------
 """
+
+"""SQL BatteryLife model """
 VIEW_SQL_BAT = """
     SELECT  d.dato_id,
             ((n.nod_descrip::text || '('::text) || l.locacion_descrip::text) || ')'::text AS nodo,
@@ -170,6 +172,7 @@ VIEW_SQL_BAT = """
     WHERE s.sen_descrip = 'Tensión'
 """
 
+"""BatteryLife model """
 class BatteryLife(pg.View):
     dato_id = models.IntegerField(primary_key=True)
     nodo = models.TextField()
@@ -191,6 +194,7 @@ class BatteryLife(pg.View):
         default_related_name = 'battery_life'
         managed = False
 
+"""SQL Datos test-lab-uno model """
 VIEW_SQL_TDLAB_UNO = """
     SELECT  d.dato_id,
             n.nod_descrip||'_'||ts.type_sen_descrip||'_'||s.sen_descrip as filtro,
@@ -214,6 +218,7 @@ VIEW_SQL_TDLAB_UNO = """
     where w.wsn_id = 1 --wsn: Prueba de Laboratorio Nro. 1
 """
 
+"""Datos test-lab-uno model """
 class DatosLabUno(pg.View):
     dato_id = models.IntegerField(primary_key=True)
     filtro = models.TextField()
@@ -239,6 +244,7 @@ class DatosLabUno(pg.View):
         default_related_name = 'datos_lab'
         managed = False
 
+"""SQL locacionesNodo model """
 VIEW_SQL_LOC = """
 SELECT  l.locacion_id,
             n.nod_descrip||'('|| l.locacion_descrip ||')' as locacion_descrip,
@@ -252,6 +258,7 @@ LEFT JOIN locacion l ON l.locacion_id = nr.locacion_id
 WHERE nr.fecha_hasta is null
 """
 
+""" locacionesNodo model """
 class LocacionesNodo(pg.View):
     locacion_id = models.IntegerField(primary_key=True)
     locacion_descrip = models.TextField()
@@ -274,6 +281,7 @@ class LocacionesNodo(pg.View):
     def popupContent(self):
       return self.locacion_descrip
 
+"""SQL test-campo-uno model """
 VIEW_SQL_TDCAMPO_UNO = """
     SELECT  d.dato_id,
             n.nod_descrip||'_'||ts.type_sen_descrip||'_'||s.sen_descrip as filtro,
@@ -297,6 +305,7 @@ VIEW_SQL_TDCAMPO_UNO = """
     where w.wsn_id = 2 --wsn: Pruebas de campo Nro. 1
 """
 
+""" test-campo-uno model """
 class DatosCampoUno(pg.View):
     dato_id = models.IntegerField(primary_key=True)
     filtro = models.TextField()
@@ -321,7 +330,7 @@ class DatosCampoUno(pg.View):
         db_table = 'datos_campo_uno'
         default_related_name = 'datos_campo_uno'
         managed = False
-#DatosCampoDos
+
 #Los modelos (pg.views) que faltan:
 #DatosLabDos
-#DatosCampoUno
+#DatosCampoDos

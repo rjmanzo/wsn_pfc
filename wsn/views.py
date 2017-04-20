@@ -42,7 +42,7 @@ def lab_dos_page(request):
     locaciones = LocacionesNodo.objects.all().filter(wsn_descrip='Prueba de Laboratorio Nro. 2') #locaciones lab
     bat = BatteryLife.objects.all().filter(wsn_descrip='Prueba de Laboratorio Nro. 2', data__lte = 3.95 ) # tension de nodos lab / menores a 3.8 bateria baja (lte <=)
     #return render(request, 'wsn/lab_dos.html', {'locaciones':locaciones, 'bat':bat})
-    return render(request, 'wsn/en_construccion_lab.html', {})
+    return render(request, 'wsn/en_construccion_lab.html', {'locaciones':locaciones, 'bat':bat})
 
 """#Campo Test Views """
 #Redirect to campo_uno
@@ -53,23 +53,23 @@ def campo_page(request):
 @login_required
 def campo_uno_page(request):
     locaciones = LocacionesNodo.objects.all().filter(wsn_descrip='Prueba de Campo Nro. 1')
-    bat = BatteryLife.objects.all().filter(wsn_descrip='Prueba de campo Nro. 1', data__lte = 3.95) # tension de nodos lab / menores a 3.8 bateria baja (lte <=)
+    #bat = BatteryLife.objects.all().filter(wsn_descrip='Prueba de campo Nro. 1', data__lte = 3.95) # tension de nodos lab / menores a 3.8 bateria baja (lte <=)
     #return render(request, 'wsn/campo_uno.html', {'locaciones':locaciones, 'bat':bat})
-    return render(request, 'wsn/campo_uno.html', {})
+    return render(request, 'wsn/campo_uno.html', {'locaciones':locaciones} )
 
 @login_required
 def campo_dos_page(request):
     locaciones = LocacionesNodo.objects.all().filter(wsn_descrip='Prueba de Campo Nro. 2')
     bat = BatteryLife.objects.all().filter(wsn_descrip='Prueba de campo Nro. 2', data__lte = 3.95) # tension de nodos lab / menores a 3.8 bateria baja (lte <=)
     #return render(request, 'wsn/starter.html', {'locaciones':locaciones, 'bat':bat})
-    return render(request, 'wsn/en_construccion_campo.html', {})
+    return render(request, 'wsn/en_construccion_campo.html', {'locaciones':locaciones, 'bat':bat})
 
 
 """Vista personalizada para el Yacthclub"""
 @login_required
 def yachtclub_page(request):
-    locaciones = LocacionesNodo.objects.all().filter(wsn_descrip='Prueba de Campo Nro. 1')
-    return render(request, 'wsn/yachtclub.html', {})
+    locaciones = LocacionesNodo.objects.all().filter(wsn_descrip='Prueba de campo Nro. 1')
+    return render(request, 'wsn/yachtclub.html', {'locaciones':locaciones} )
 
 """#REST views--------------------------"""
 class DatoList(GroupRequiredMixin,ListCreateAPIView):
