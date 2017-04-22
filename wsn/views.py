@@ -114,6 +114,5 @@ class DatosTableCampo_Uno_List(LoginRequiredMixin, BaseDatatableView):
     model = DatosCampoUno
     columns = ['nodo', 'rol', 'tipo_sensor', 'sensor', 'data','fecha_hora_text']
     order_columns = ['nodo', 'rol', 'tipo_sensor', 'sensor', 'data', 'fecha_hora_text']
-#DatosTableCampo_Dos_List
-#DatosTableCampo_Uno_List
+#DatosGraphCampo_Dos_List
 #DatosTableCampo_Dos_List

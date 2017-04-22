@@ -35,6 +35,7 @@ class ConfiguracionSerializers(serializers.ModelSerializer):
 class DatosTablaLabUnoSerializers(serializers.ModelSerializer):
     """cambio el formato del timestamp para poder usarlo en las graficas (Python format type)"""
     timestamp = serializers.DateTimeField(source='fecha_hora', format="%Y-%m-%d %H:%M:%S")
+    #valor = serializers.FloatField(source='data')
 
     class Meta:
          model = DatosLabUno
