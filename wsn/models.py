@@ -123,7 +123,7 @@ class Dato(models.Model):
 de los distintos nodos de la red """
 
 class Configuracion_wsn(models.Model):
-    OFF = 99
+    OFF = 254
     QUINCE = 1
     MEDIA = 2
     CUARENTAYCINCO = 3
