@@ -123,16 +123,16 @@ class Dato(models.Model):
 de los distintos nodos de la red """
 
 class Configuracion_wsn(models.Model):
-    APAGADO = 254
+    APAGADO = 0
     QUINCE = 1
     MEDIA = 2
     CUARENTAYCINCO = 3
     UNAHORA = 4
-    DOSHORAS = 5
-    CUATROHORAS = 6
-    SEISHORAS = 7
-    DOCEHORAS = 8
-    UNDIA = 9
+    DOSHORAS = 8
+    CUATROHORAS = 16
+    SEISHORAS = 24
+    DOCEHORAS = 48
+    UNDIA = 96
     TIEMPOS = (
         (APAGADO, 'APAGADO'),
         (QUINCE, '15 MIN'),
