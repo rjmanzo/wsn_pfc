@@ -72,10 +72,11 @@ def yachtclub_page(request):
     return render(request, 'wsn/yachtclub.html', {'locaciones':locaciones} )
 
 """#REST views--------------------------"""
-class DatoList(GroupRequiredMixin,ListCreateAPIView):
+class DatoList(ListCreateAPIView):
+#class DatoList(GroupRequiredMixin,ListCreateAPIView):
     #permission_required = "auth.change_user"
     #required
-    group_required = [u"arduino", u"administradores"]
+    #group_required = [u"arduino", u"administradores"]
     queryset = Dato.objects.all()
     serializer_class = DatoSerializers
 
