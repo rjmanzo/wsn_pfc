@@ -700,16 +700,16 @@
 
     //asigno a las variables los datos de los nodos
     for (i = 0; i < dat_fig.length; i++) {
-      if(dat_fig[i].filtro == "Nodo_1_Temperatura_MCP9808"){
+      if(dat_fig[i].filtro == "Nodo_1_Temperatura_BMP183"){
         x_data_node1.push(dat_fig[i].timestamp);
         y_data_node1.push(dat_fig[i].data);}
-      if(dat_fig[i].filtro == "Nodo_2_Temperatura_MCP9808"){
+      if(dat_fig[i].filtro == "Nodo_2_Temperatura_BMP183"){
         x_data_node2.push(dat_fig[i].timestamp);
         y_data_node2.push(dat_fig[i].data);}
-      if(dat_fig[i].filtro == "Nodo_3_Temperatura_MCP9808"){
+      if(dat_fig[i].filtro == "Nodo_3_Temperatura_BMP183"){
         x_data_node3.push(dat_fig[i].timestamp);
         y_data_node3.push(dat_fig[i].data);}
-      if(dat_fig[i].filtro == "Nodo_4_Temperatura_MCP9808"){
+      if(dat_fig[i].filtro == "Nodo_4_Temperatura_BMP183"){
         x_data_node4.push(dat_fig[i].timestamp);
         y_data_node4.push(dat_fig[i].data);}
     }
@@ -771,7 +771,7 @@
 
         //Finalmente creo la grafica
         var gr = Plotly.plot('temperatura_2', data , {
-          title:'MCP9808',
+          title:'BMP183',
           xaxis: {title: 'Tiempo',
                   rangeselector: selectorOptions,
                   //rangeslider: {}
