@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from wsn.models import Nodo_red,Sensor,Dato,Configuracion_wsn, BatteryLife, DatosLabUno, DatosCampoUno
+from wsn.models import Nodo_red,Sensor,Dato,Configuracion_wsn, BatteryLife, DatosLabUno, DatosCampoUno,DatosYachtclub
 
 """Comunicacion wsn"""
 class NodoRedSerializers(serializers.ModelSerializer):
@@ -49,5 +49,15 @@ class DatosTablaCampoUnoSerializers(serializers.ModelSerializer):
 
     class Meta:
          model = DatosCampoUno
+         fields = ('filtro','data','timestamp')
+         read_only_fields = ('filtro','data','timestamp')
+
+"""Serializamos la vista de datos para poder utilizarla en las gráficas"""
+class DatosTablaYachtclubSerializers(serializers.ModelSerializer):
+    """cambio el formato del timestamp para poder usarlo en las graficas (Python format type)"""
+    timestamp = serializers.DateTimeField(source='fecha_hora', format="%Y-%m-%d %H:%M:%S")
+
+    class Meta:
+         model = DatosYachtclub
          fields = ('filtro','data','timestamp')
          read_only_fields = ('filtro','data','timestamp')

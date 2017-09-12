@@ -344,3 +344,53 @@ class DatosCampoUno(pg.View):
 #Los modelos (pg.views) que faltan:
 #DatosLabDos
 #DatosCampoDos
+
+"""SQL test-campo-uno model """
+VIEW_SQL_YACHTCLUB = """
+    SELECT  d.dato_id,
+            n.nod_descrip||'_'||ts.type_sen_descrip||'_'||s.sen_descrip as filtro,
+            n.nod_descrip as nodo,
+            r.rol_descrip as rol,
+            l.locacion_descrip as locacion,
+            ts.type_sen_descrip as tipo_sensor,
+            s.sen_descrip as sensor,
+            d.data,
+            d.fechahora as fecha_hora,
+            to_char(fechahora AT TIME ZONE 'UTC+3', 'YYYY-MM-DD HH24:MI:SS') as fecha_hora_text
+
+    FROM dato d
+    LEFT JOIN nodo_red nr ON nr.nod_red_id = d.nod_red_id
+    LEFT JOIN rol r ON r.rol_id = nr.rol_id
+    LEFT JOIN wsn w ON w.wsn_id = nr.wsn_id
+    LEFT JOIN nodo n ON n.nodo_id = nr.nod_id
+    LEFT JOIN sensor s ON s.sen_id = d.sen_id
+    LEFT JOIN tipo_sensor ts ON ts.type_sen_id = s.type_sen_id
+    LEFT JOIN locacion l ON l.locacion_id = nr.locacion_id
+    where w.wsn_id = 4 --wsn: hidrometro yacht club sf
+"""
+
+""" yachtclub model """
+class DatosYachtclub(pg.View):
+    dato_id = models.IntegerField(primary_key=True)
+    filtro = models.TextField()
+    nodo = models.CharField(max_length=300)
+    rol = models.CharField(max_length=300)
+    locacion = models.CharField(max_length=300)
+    tipo_sensor = models.CharField(max_length=300)
+    sensor = models.CharField(max_length=300)
+    data = models.FloatField()
+    fecha_hora = models.DateTimeField()
+    fecha_hora_text = models.TextField()
+    #projection = ['dato.*',]
+    #dependencies = ['myapp.OtherView',]
+    sql = VIEW_SQL_YACHTCLUB
+
+    def __str__(self):
+        dato = self.nodo +" ("+self.locacion+ ") - " + self.fecha_hora.strftime("%Y-%m-%d %H:%M:%S")
+        return dato
+
+    class Meta:
+        #app_label = 'myapp'
+        db_table = 'datos_yachtclub'
+        default_related_name = 'datos_yachtclub'
+        managed = False

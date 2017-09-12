@@ -3,7 +3,7 @@ from wsn.models import (
     Nodo,Nodo_red,Dato,Sensor,
     Rol,Tipo_sensor,Wsn,Locacion,
     DatosLabUno,LocacionesNodo,Configuracion_wsn,
-    BatteryLife, DatosCampoUno#,,DatosLabDos,,DatosCampoDos
+    BatteryLife, DatosCampoUno, DatosYachtclub#,,DatosLabDos,,DatosCampoDos
 )
 from leaflet.admin import LeafletGeoAdmin
 
@@ -27,3 +27,4 @@ admin.site.register(DatosLabUno)
 #admin.site.register(DatosLabDos)
 admin.site.register(DatosCampoUno)
 #admin.site.register(DatosCampoDos)
+admin.site.register(DatosYachtclub)

@@ -5,8 +5,8 @@ from django.contrib.auth.decorators import login_required
 from braces.views import LoginRequiredMixin, PermissionRequiredMixin
 from rest_framework.generics import ListCreateAPIView, ListAPIView
 from rest_framework.renderers import JSONRenderer
-from wsn.serializers import ConfiguracionSerializers, DatoSerializers, DatosTablaLabUnoSerializers, DatosTablaCampoUnoSerializers
-from wsn.models import Dato, Locacion, BatteryLife, DatosLabUno, DatosCampoUno, LocacionesNodo,Configuracion_wsn
+from wsn.serializers import ConfiguracionSerializers, DatoSerializers, DatosTablaLabUnoSerializers, DatosTablaCampoUnoSerializers,DatosTablaYachtclubSerializers
+from wsn.models import Dato, Locacion, BatteryLife, DatosLabUno, DatosCampoUno, LocacionesNodo,Configuracion_wsn,DatosYachtclub
 from django_datatables_view.base_datatable_view import BaseDatatableView
 from braces.views import GroupRequiredMixin
 
@@ -118,3 +118,14 @@ class DatosTableCampo_Uno_List(LoginRequiredMixin, BaseDatatableView):
     order_columns = ['nodo', 'rol', 'tipo_sensor', 'sensor', 'data', 'fecha_hora_text']
 #DatosGraphCampo_Dos_List
 #DatosTableCampo_Dos_List
+#--yachtclub
+class DatosGraphYachtclub_List(LoginRequiredMixin, ListAPIView):
+    renderer_classes = (JSONRenderer, )
+    queryset = DatosYachtclub.objects.all()
+    serializer_class = DatosTablaYachtclubSerializers
+
+"""#datatables Json generator"""
+class DatosTableYachtclub_List(LoginRequiredMixin, BaseDatatableView):
+    model = DatosYachtclub
+    columns = ['nodo', 'rol', 'tipo_sensor', 'sensor', 'data','fecha_hora_text']
+    order_columns = ['nodo', 'rol', 'tipo_sensor', 'sensor', 'data', 'fecha_hora_text']

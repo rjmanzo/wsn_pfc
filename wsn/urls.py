@@ -30,4 +30,6 @@ urlpatterns = [
     url(r'^api-table-campo/1/$', views.DatosTableCampo_Uno_List.as_view(), name='api_table_campo_uno'),
     #url(r'^api-graph-campo/2/$', views.DatosGraphCampo_Dos_List.as_view(), name='api_graph_campo_dos'),
     #url(r'^api-table-campo/2/$', views.DatosTableCampo_Dos_List.as_view(), name='api_table_campo_dos'),
+    url(r'^api-graph-yachtclub/1/$', views.DatosGraphYachtclub_List.as_view(), name='api_graph_yachtclub'),
+    url(r'^api-table-yachtclub/1/$', views.DatosTableYachtclub_List.as_view(), name='api_table_yachtclub'),
 ]
