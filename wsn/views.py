@@ -21,7 +21,7 @@ def main_page(request):
         username = request.user.username
         #username = request.POST.get('username')
         if username == 'yachtclub':
-            return redirect('wsn/yachtclub-sf/') #redirect to yatchclub view
+            return redirect('ycsf/') #redirect to yatchclub view
         else:
             return redirect('wsn/lab-test/1/')
 
