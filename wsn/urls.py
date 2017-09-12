@@ -16,7 +16,7 @@ urlpatterns = [
     url(r'^wsn/campo-test/1/$', views.campo_uno_page, name='campo_uno'),
     url(r'^wsn/campo-test/2/$', views.campo_dos_page, name='campo_dos'),
     #yatchclub
-    url(r'^wsn/yachtclub-sf/$', views.yachtclub_page, name='yachtclub'),
+    url(r'^ycsf/$', views.yachtclub_page, name='yachtclub'),
     #Rest configuration
     url(r'^api-reg/$', views.DatoList.as_view(), name='api_reg'),
     url(r'^api-config/$', views.ConfiguracionList.as_view(), name='api_config'),

@@ -71,6 +71,7 @@ def yachtclub_page(request):
     locaciones = LocacionesNodo.objects.all().filter(wsn_descrip='hidrometro yacht club')
     return render(request, 'wsn/yachtclub.html', {'locaciones':locaciones} )
 
+
 """#REST views--------------------------"""
 class DatoList(ListCreateAPIView):
 #class DatoList(GroupRequiredMixin,ListCreateAPIView):
