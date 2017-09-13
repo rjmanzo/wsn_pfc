@@ -462,7 +462,7 @@
   <!-- datatables Js -->
   <script type="text/javascript">
       //Ajax url path
-      var TABLA_LIST_JSON_URL = "{% url 'wsn:api_table_campo_uno' %}";
+      var TABLA_LIST_JSON_URL = "{% url 'wsn:api_table_yachtclub' %}";
       //Configuraciones datatable
       $(document).ready(function() {
         var table = $('#DataTable').DataTable({
@@ -504,7 +504,7 @@
   <!-- JS - Temperatura_1 -->
   <script type="text/javascript">
 
-  Plotly.d3.json('{% url 'wsn:api_graph_campo_uno' %}', function(dat_fig){
+  Plotly.d3.json('{% url 'wsn:api_graph_yachtclub' %}', function(dat_fig){
     //aux arrays
     var x_data_node1 = [],
         x_data_node2 = [],
@@ -619,7 +619,7 @@
   <!-- JS - Temperatura_2 -->
   <script type="text/javascript">
 
-  Plotly.d3.json('{% url 'wsn:api_graph_campo_uno' %}', function(dat_fig){
+  Plotly.d3.json('{% url 'wsn:api_graph_yachtclub' %}', function(dat_fig){
     //aux arrays
     var x_data_node1 = [],
         x_data_node2 = [],
@@ -734,7 +734,7 @@
 
         <script type="text/javascript">
 
-        Plotly.d3.json('{% url 'wsn:api_graph_campo_uno' %}', function(dat_fig){
+        Plotly.d3.json('{% url 'wsn:api_graph_yachtclub' %}', function(dat_fig){
           //aux arrays
           var x_data_node1 = [],
               x_data_node2 = [],
